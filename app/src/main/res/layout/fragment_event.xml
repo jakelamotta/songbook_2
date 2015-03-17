@@ -19,20 +19,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ASU 5-ars jubileum"
+                android:id="@+id/event_name_tw"
                 android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="18.04.15"/>
+                android:id="@+id/event_date_tw"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:paddingTop="20dp"
-                android:text="Currently singing: Karhu Paloo -->"/>
+                android:id="@+id/event_current_tw"/>
         </LinearLayout>
 
         <LinearLayout

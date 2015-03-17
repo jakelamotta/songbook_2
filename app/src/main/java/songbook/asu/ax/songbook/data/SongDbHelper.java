@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SongDbHelper extends SQLiteOpenHelper {
 
     //Change this value when making db updates
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 12;
     static final String DATABASE_NAME = "songs.db";
 
     public SongDbHelper(Context context){
@@ -34,11 +34,17 @@ public class SongDbHelper extends SQLiteOpenHelper {
                 SongContract.EventTable.COLUMN_EVENT_DATE + " TEXT NOT NULL, " +
                 SongContract.EventTable.COLUMN_LAST_UPADTED + " INTEGER, " +
                 SongContract.EventTable.COLUMN_CURRENT_SONG + " INTEGER, " +
+                SongContract.EventTable.COLUMN_EVENT_ID + " INTEGER UNIQUE, " +
                 SongContract.EventTable.COLUMN_INFO + " TEXT " +
                 " );";
 
-        final String SQL_CREATE_EVENT_HAS_SONG_TABLE = "CREATE TABLE";
+        final String SQL_CREATE_EVENT_HAS_SONG_TABLE = "CREATE TABLE " + SongContract.EventHasSongTable.NAME + " (" +
+                SongContract.EventHasSongTable._ID + " INTEGER PRIMARY KEY, " +
+                SongContract.EventHasSongTable.COLUMN_EVENT_ID + " INTEGER, " +
+                SongContract.EventHasSongTable.COLUMN_SONG_ID + " INTEGER " +
+                " );";
 
+        db.execSQL(SQL_CREATE_EVENT_HAS_SONG_TABLE);
         db.execSQL(SQL_CREATE_EVENT_TABLE);
         db.execSQL(SQL_CREATE_SONG_TABLE);
     }
@@ -48,6 +54,8 @@ public class SongDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SongContract.SongTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SongContract.EventHasSongTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SongContract.EventTable.NAME);
         onCreate(db);
     }
 }

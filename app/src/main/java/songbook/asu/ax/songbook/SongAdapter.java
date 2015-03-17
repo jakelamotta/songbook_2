@@ -37,7 +37,6 @@ public class SongAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        Log.v(LOG_TAG,"new View: " + context.toString());
         int viewType = getItemViewType(cursor.getPosition());
 
         int layoutId = R.layout.list_item_song;

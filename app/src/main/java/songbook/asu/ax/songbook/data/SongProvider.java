@@ -9,7 +9,10 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
+import java.util.Date;
 import java.util.Iterator;
+
+import songbook.asu.ax.songbook.Utilities;
 
 
 /**
@@ -22,13 +25,87 @@ public class SongProvider extends ContentProvider {
     private SongDbHelper mHelper;
 
     static final int SONG = 100;
-    static final int SONG_WITH_EVENT = 101;
+    static final int EVENT = 101;
+    static final int SONG_WITH_EVENT = 102;
 
-    private static SQLiteQueryBuilder songQueryBuilder;
+    private static SQLiteQueryBuilder songByEventQueryBuilder;
 
     static{
-        songQueryBuilder = new SQLiteQueryBuilder();
-        songQueryBuilder.setTables(SongContract.SongTable.NAME);
+        songByEventQueryBuilder = new SQLiteQueryBuilder();
+        songByEventQueryBuilder.setTables(
+                SongContract.SongTable.NAME + " INNER JOIN " +
+                        SongContract.EventHasSongTable.NAME +
+                        " ON " + SongContract.SongTable.NAME +
+                        "." + SongContract.SongTable.COLUMN_SONG_ID +
+                        " = " + SongContract.EventHasSongTable.NAME +
+                        "." + SongContract.EventHasSongTable.COLUMN_SONG_ID);
+    }
+
+    //event.date = ?
+    private static final String sEventDateSelection =
+            SongContract.EventTable.NAME+
+                    "." + SongContract.EventTable.COLUMN_EVENT_DATE + " = ? ";
+
+    //event_has_song.event_id = ?
+    private static final String sSongWithEventSelection =
+            SongContract.EventHasSongTable.COLUMN_EVENT_ID + " = ? ";
+
+    //song.song_id = ?
+    private static final String sSongWithIdSelection =
+            SongContract.SongTable.NAME +
+                    "." + SongContract.SongTable.COLUMN_SONG_ID + " = ? ";
+
+    private Cursor getSongsByEvent(Uri uri, String[] projection, String sortOrder){
+        String[] selectionArgs;
+        String selection;
+
+
+        String id = "-1";
+
+        Cursor cursor = getEventByDate(new String[]{SongContract.EventTable.COLUMN_EVENT_ID,SongContract.EventTable.COLUMN_EVENT_DATE},
+                SongContract.EventTable.COLUMN_EVENT_ID);
+
+        try{
+            cursor.moveToFirst();
+            id = cursor.getString(cursor.getColumnIndex(SongContract.EventTable.COLUMN_EVENT_ID));
+        }
+        catch (Exception e){
+            Log.e(LOG_TAG,e.getMessage());
+        }
+
+        selection = sSongWithEventSelection;
+        selectionArgs = new String[]{id};
+
+        return songByEventQueryBuilder.query(mHelper.getReadableDatabase(),
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder
+            );
+
+    }
+
+    private Cursor getEventByDate(String[] projection, String sortOrder) {
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+
+        queryBuilder.setTables(SongContract.EventTable.NAME);
+
+        String[] selectionArgs;
+        String selection;
+
+        selection = sEventDateSelection;
+        selectionArgs = new String[]{Utilities.formatDateString(new Date())};
+
+        return queryBuilder.query(mHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
     }
 
     @Override
@@ -43,10 +120,28 @@ public class SongProvider extends ContentProvider {
         // and query the database accordingly.
         Cursor retCursor;
         int match = sUriMatcher.match(uri);
+
         switch (match) {
             case SONG: {
+
                 retCursor = mHelper.getReadableDatabase().query(
                         SongContract.SongTable.NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case SONG_WITH_EVENT: {
+                retCursor = getSongsByEvent(uri,projection,sortOrder);
+                break;
+            }
+            case EVENT:{
+                retCursor = mHelper.getReadableDatabase().query(
+                        SongContract.EventTable.NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -68,7 +163,6 @@ public class SongProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            // Student: Uncomment and fill out these two cases
             case SONG:
                 return SongContract.SongTable.CONTENT_ITEM_TYPE;
             default:
@@ -76,13 +170,13 @@ public class SongProvider extends ContentProvider {
         }
     }
 
+
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         Iterator it = values.keySet().iterator();
 
         while (it.hasNext()){
             String key = it.next().toString();
-            Log.v(LOG_TAG,values.getAsString(key));
         }
 
         final SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -91,13 +185,18 @@ public class SongProvider extends ContentProvider {
 
         switch (match) {
             case SONG: {
-
                 long _id = db.insert(SongContract.SongTable.NAME, null, values);
                 if ( _id > 0 )
                     returnUri = SongContract.SongTable.buildSongUri("_id");
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
+            }
+            case EVENT: {
+                throw new UnsupportedOperationException("Not supported yet");
+            }
+            case SONG_WITH_EVENT:{
+                throw new UnsupportedOperationException("Not supported yet");
             }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -118,8 +217,15 @@ public class SongProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         SongContract.SongTable.NAME, selection, selectionArgs);
                 break;
+            case EVENT:
+                rowsDeleted = db.delete(
+                        SongContract.EventTable.NAME, selection, selectionArgs);
+            case SONG_WITH_EVENT:{
+                rowsDeleted = db.delete(
+                        SongContract.EventHasSongTable.NAME, selection, selectionArgs);
+            }
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri + " in delete");
         }
         // Because a null deletes all rows
         if (rowsDeleted != 0) {
@@ -135,10 +241,22 @@ public class SongProvider extends ContentProvider {
         int rowsUpdated;
 
         switch (match) {
-            case SONG:
+            case SONG:{
                 rowsUpdated = db.update(SongContract.SongTable.NAME, values, selection,
                         selectionArgs);
                 break;
+            }
+            case EVENT: {
+                rowsUpdated = db.update(SongContract.EventTable.NAME, values, selection,
+                        selectionArgs);
+                break;
+            }
+            case SONG_WITH_EVENT:
+            {
+                rowsUpdated = db.update(SongContract.EventHasSongTable.NAME, values, selection,
+                        selectionArgs);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -154,8 +272,7 @@ public class SongProvider extends ContentProvider {
         final SQLiteDatabase db = mHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case SONG:
-
+            case SONG:{
                 db.beginTransaction();
                 int returnCount = 0;
                 try {
@@ -175,6 +292,49 @@ public class SongProvider extends ContentProvider {
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
+            }
+            case EVENT:{
+                db.beginTransaction();
+                int returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        String[] tempArray = new String[1];
+                        tempArray[0] = value.getAsString("event_name");
+                        db.delete(SongContract.EventTable.NAME,"event_name = ?",tempArray);
+                        long _id = db.insert(SongContract.EventTable.NAME, null, value);
+
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            }
+            case SONG_WITH_EVENT: {
+                db.beginTransaction();
+                int returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        String[] tempArray = new String[1];
+                        tempArray[0] = value.getAsString("id");
+                        db.delete(SongContract.EventHasSongTable.NAME, "id = ?", tempArray);
+                        long _id = db.insert(SongContract.EventHasSongTable.NAME, null, value);
+
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            }
             default:
                 return super.bulkInsert(uri, values);
         }
@@ -191,7 +351,10 @@ public class SongProvider extends ContentProvider {
         final String authority = SongContract.CONTENT_AUTHORITY;
 
         // For each type of URI you want to add, create a corresponding code.
+        matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_SONG_WITH_EVENT,SONG_WITH_EVENT);
         matcher.addURI(authority, SongContract.PATH_SONG, SONG);
+        matcher.addURI(authority,SongContract.PATH_EVENT,EVENT);
+        //matcher.addURI(authority,SongContract.PATH_EVENT_HAS_SONG,EVENT_HAS_SONG);
 
         return matcher;
     }

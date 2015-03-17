@@ -1,5 +1,6 @@
 package songbook.asu.ax.songbook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -28,16 +29,42 @@ public class DetailActivity extends ActionBarActivity{
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_detail_container, fragment).commit();
+
+
+        getSupportActionBar().setIcon(R.mipmap.asu_icon);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         //}
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.action_event){
+            Intent intent = new Intent(this,EventActivity.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.action_admin_login){
+            Intent intent = new Intent(this,AdminActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

@@ -13,11 +13,9 @@ import android.content.SyncResult;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,7 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Random;
+
 import java.util.Vector;
 
 import songbook.asu.ax.songbook.R;
@@ -45,7 +43,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+
     private static final int SONG_NOTIFICATION_ID = 3004;
     private static final String PREFERENCE_UPDATED = "preference_last_updated";
 
@@ -85,7 +83,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             builtUri = Uri.parse(SONG_BASE_URL).buildUpon()
                     .appendQueryParameter(ID_PARAM,"0")
                     .appendQueryParameter(TIME_PARAM, last_updated)
-                    .appendQueryParameter(EVENT_PARAM,"0")
+                    .appendQueryParameter(EVENT_PARAM,Utilities.formatDateString(new Date()))
                     .build();
 
             //Log.v(LOG_TAG,builtUri.toString());
@@ -121,10 +119,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
 
             getSongDataFromJson(songJsonStr);
 
-            java.util.Date date = new java.util.Date();
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-            String formattedDateString = Utilities.formatDateString(sqlDate.toString());
+            String formattedDateString = Utilities.formatDateString(new Date());
 
             //Update the shared preference
             SharedPreferences.Editor editor = prefs.edit();
@@ -157,7 +152,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(getSyncAccount(context),context.getString(R.string.content_authority), bundle);
+        ContentResolver.requestSync(getSyncAccount(context),context.getString(R.string.content_authority) , bundle);
     }
 
     /**
@@ -265,29 +260,69 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 cVVector.add(songValues);
             }
 
+            int inserted = 0;
+
+            // add to database
+            if (cVVector.size() > 0) {
+                ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                cVVector.toArray(cvArray);
+                getContext().getContentResolver().bulkInsert(SongContract.SongTable.CONTENT_URI, cvArray);
+            }
+
             keys = eventArray.keys();
+            cVVector = new Vector<ContentValues>(eventArray.length());
 
             while (keys.hasNext()){
                 key = keys.next().toString();
                 tempObj = new JSONObject(eventArray.getString(key));
                 String id = tempObj.getString("id");
+                String name = key.toString();
                 String date = tempObj.getString("date");
-                String current_song = tempObj.getString("current_song");
+                //String current_song = tempObj.getString("current_song");
 
                 ContentValues eventValues = new ContentValues();
+                eventValues.put(SongContract.EventTable.COLUMN_EVENT_NAME,name);
                 eventValues.put(SongContract.EventTable.COLUMN_EVENT_DATE,date);
-                eventValues.put(SongContract.EventTable.COLUMN_CURRENT_SONG,current_song);
-
+                eventValues.put(SongContract.EventTable.COLUMN_CURRENT_SONG,"placeholdertext, line 288 SongSyncAdapter");
+                eventValues.put(SongContract.EventTable.COLUMN_EVENT_ID,id);
+                cVVector.add(eventValues);
             }
 
-                int inserted = 0;
+            inserted = 0;
 
-                // add to database
-                if (cVVector.size() > 0) {
-                    ContentValues[] cvArray = new ContentValues[cVVector.size()];
-                    cVVector.toArray(cvArray);
-                    getContext().getContentResolver().bulkInsert(SongContract.SongTable.CONTENT_URI, cvArray);
-                }
+            // add to database
+            if (cVVector.size() > 0) {
+                ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                cVVector.toArray(cvArray);
+                getContext().getContentResolver().bulkInsert(SongContract.EventTable.CONTENT_URI, cvArray);
+            }
+
+            keys = relationshipArray.keys();
+            cVVector = new Vector<ContentValues>(relationshipArray.length());
+
+            while (keys.hasNext()){
+                key = keys.next().toString();
+                tempObj = new JSONObject(relationshipArray.getString(key));
+                String id = key.toString();
+                String tempSongId = tempObj.getString("songId");
+                String tempEventId = tempObj.getString("eventId");
+
+                ContentValues relationshipValues = new ContentValues();
+                relationshipValues.put(SongContract.EventHasSongTable._ID,id);
+                relationshipValues.put(SongContract.EventHasSongTable.COLUMN_EVENT_ID,tempEventId);
+                relationshipValues.put(SongContract.EventHasSongTable.COLUMN_SONG_ID,tempSongId);
+                cVVector.add(relationshipValues);
+            }
+
+            inserted = 0;
+
+            // add to database
+            if (cVVector.size() > 0) {
+                ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                cVVector.toArray(cvArray);
+                getContext().getContentResolver().bulkInsert(SongContract.SongTable.buildSongWithEventUri(), cvArray);
+            }
+
         }
         catch (Exception e){
             Log.e(LOG_TAG,e.getMessage());

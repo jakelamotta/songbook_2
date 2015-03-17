@@ -15,17 +15,19 @@ public class Utilities {
     public static void main(String[] argvs){
         java.util.Date date = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        System.out.println(formatDateString(sqlDate.toString()));
+        System.out.println(formatDateString(date));
 
     }
 
-    public static String formatDateString(String date){
-        date = date.replace("-","");
-        if (date.length() != 8){
-            Log.e(LOG_TAG,"Date is not in the correct format: " + date + " " + Integer.toString(date.length()));
+    public static String formatDateString(java.util.Date date){
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        String dateString = sqlDate.toString();
+        dateString = dateString.toString().replace("-","");
+        if (dateString.length() != 8){
+            Log.e(LOG_TAG,"Date is not in the correct format: " + date + " " + Integer.toString(dateString.length()));
             throw new IllegalArgumentException();
         }
-        return date;
+        return dateString;
     }
 }
 

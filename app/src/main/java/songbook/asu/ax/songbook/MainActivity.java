@@ -18,14 +18,16 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         MainFragment fragment = new MainFragment();
         fragmentTransaction.add(R.id.fragment_main, fragment);
         fragmentTransaction.commit();
-     }
+        getSupportActionBar().setIcon(R.mipmap.asu_icon);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
 
 
     @Override
@@ -34,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
