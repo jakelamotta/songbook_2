@@ -2,19 +2,26 @@
 <resources>
 
     <!--Actions-->
-    <string name="app_name" translateable="false">ÅSU Sångbok</string>
+    <string name="app_name" translateable="false" color="@color/asu_blue">ÅSU Sångbok</string>
     <string name="action_settings">Settings</string>
     <string name="action_admin_login">Admin login</string>
     <string name="sync_song">Sync song</string>
+    <string name="action_about">About</string>
 
     <!--Internal strings-->
     <string name="sync_account_type">songbook.asu.ax</string>
     <string name="content_authority">"songbook.asu.ax.songbook"</string>
 
     <!--Labels-->
-    <string name="all_songs">All songs</string>
-    <string name="event_label">Event</string>
-    <string name="current_song">Current song</string>
+    <string name="all_songs" color="@color/asu_blue">All songs</string>
+    <string name="event_label" color="@color/asu_blue">Event</string>
+    <string name="current_song" color="@color/asu_blue">Current song</string>
+    <string name="search_label">Search song</string>
+    <string name="welcome_label">Välkommen till ÅSUs sångbok!</string>
+    <string name="info">Created by Kristian Johansson (2015) \nEmail: kristian.johansson86@gmail.com</string>
+
+    <!--ListItem-->
+    <string name="melody">Mel: %1$s</string>
 
     <!--Messages-->
     <string name="server_down">The songbook server is not available</string>

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.Date;
@@ -22,11 +23,13 @@ public class SongProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final String LOG_TAG = SongProvider.class.getSimpleName();
+
     private SongDbHelper mHelper;
 
     static final int SONG = 100;
     static final int EVENT = 101;
     static final int SONG_WITH_EVENT = 102;
+    private static final int SONG_WITH_NAME = 103;
 
     private static SQLiteQueryBuilder songByEventQueryBuilder;
 
@@ -54,6 +57,9 @@ public class SongProvider extends ContentProvider {
     private static final String sSongWithIdSelection =
             SongContract.SongTable.NAME +
                     "." + SongContract.SongTable.COLUMN_SONG_ID + " = ? ";
+
+    private static final String sSongWithName = SongContract.SongTable.NAME +
+            "." + SongContract.SongTable.COLUMN_SONG_NAME + " = ?";
 
     private Cursor getSongsByEvent(Uri uri, String[] projection, String sortOrder){
         String[] selectionArgs;
@@ -85,6 +91,23 @@ public class SongProvider extends ContentProvider {
                     sortOrder
             );
 
+    }
+
+    private Cursor getSongByName(Uri uri, String[] projection, @Nullable String selection, String [] selectionArgs,String sortOrder){
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(SongContract.SongTable.NAME);
+
+        if (selection == null) {
+            selection = sSongWithName;
+        }
+
+        return queryBuilder.query(mHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
     }
 
     private Cursor getEventByDate(String[] projection, String sortOrder) {
@@ -120,7 +143,6 @@ public class SongProvider extends ContentProvider {
         // and query the database accordingly.
         Cursor retCursor;
         int match = sUriMatcher.match(uri);
-
         switch (match) {
             case SONG: {
 
@@ -149,6 +171,10 @@ public class SongProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                break;
+            }
+            case SONG_WITH_NAME:{
+                retCursor = getSongByName(uri,projection,selection,selectionArgs,sortOrder);
                 break;
             }
             default:
@@ -187,7 +213,7 @@ public class SongProvider extends ContentProvider {
             case SONG: {
                 long _id = db.insert(SongContract.SongTable.NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = SongContract.SongTable.buildSongUri("_id");
+                    returnUri = SongContract.SongTable.buildSongUri();
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -341,12 +367,6 @@ public class SongProvider extends ContentProvider {
     }
 
     static UriMatcher buildUriMatcher() {
-        // I know what you're thinking.  Why create a UriMatcher when you can use regular
-        // expressions instead?  Because you're not crazy, that's why.
-
-        // All paths added to the UriMatcher have a corresponding code to return when a match is
-        // found.  The code passed into the constructor represents the code to return for the root
-        // URI.  It's common to use NO_MATCH as the code for this case.
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = SongContract.CONTENT_AUTHORITY;
 
@@ -354,8 +374,7 @@ public class SongProvider extends ContentProvider {
         matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_SONG_WITH_EVENT,SONG_WITH_EVENT);
         matcher.addURI(authority, SongContract.PATH_SONG, SONG);
         matcher.addURI(authority,SongContract.PATH_EVENT,EVENT);
-        //matcher.addURI(authority,SongContract.PATH_EVENT_HAS_SONG,EVENT_HAS_SONG);
-
+        matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_EVENT_WITH_NAME,SONG_WITH_NAME);
         return matcher;
     }
 }

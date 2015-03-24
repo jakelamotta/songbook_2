@@ -2,30 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_weight="5">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        android:background="@drawable/border">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="10dp"
+                android:paddingBottom="5dp"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:paddingTop="15dp"
+                android:elegantTextHeight="true"
                 android:id="@+id/song_name_textview_detail"
-                android:text="Karhu paloo"/>
+                android:textSize="@dimen/abc_text_size_title_material"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,30 +29,17 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:id="@+id/melody_textview_detail"
-                android:text="Djungelboken"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="2">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:id="@+id/imageview_detail"
-                android:src="@mipmap/asu_icon"/>
-            </LinearLayout>
+                android:textSize="@dimen/abc_text_size_subhead_material"
+                android:textStyle="italic"/>
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10">
+        android:layout_height="0dp"
+        android:paddingTop="5dp"
+        android:layout_weight="11"
+        android:background="@drawable/border">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -64,8 +47,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_text_view_detail"
-                    android:text="Var nojd med allt som kaljan ger och aven sig tu tuppel ser"/>
+                    android:gravity="center_horizontal"
+                    android:id="@+id/text_text_view_detail"/>
             </ScrollView>
 
     </LinearLayout>

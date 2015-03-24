@@ -3,20 +3,23 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="@drawable/touch_selector"
+    android:theme="@style/AppTheme">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_weight="4">
+        android:layout_weight="6">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/text_view_songname"
             android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/abc_text_size_large_material"
             android:text="Karhu paloo!"/>
 
         <TextView
@@ -24,12 +27,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/text_view_melody"
             android:layout_gravity="center_horizontal"
+            android:textStyle="italic"
+            android:textSize="@dimen/abc_text_size_subhead_material"
             android:text="Djungelboken"/>
 
         </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight="1">
@@ -38,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/image_view_item"
-            android:src="@mipmap/asu_icon"/>
+            android:rotation="180"/>
 
     </LinearLayout>
 </LinearLayout>

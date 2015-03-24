@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SongDbHelper extends SQLiteOpenHelper {
 
     //Change this value when making db updates
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     static final String DATABASE_NAME = "songs.db";
 
     public SongDbHelper(Context context){

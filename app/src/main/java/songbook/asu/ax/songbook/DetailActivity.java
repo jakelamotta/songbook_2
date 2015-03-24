@@ -20,8 +20,7 @@ public class DetailActivity extends ActionBarActivity{
 
         setContentView(R.layout.activity_detail);
 
-        //if (savedInstanceState != null) {
-
+        if (savedInstanceState == null){
             Bundle bundle = getIntent().getBundleExtra(MainFragment.BUNDLE_KEY);
 
             DetailFragment fragment = new DetailFragment();
@@ -29,13 +28,16 @@ public class DetailActivity extends ActionBarActivity{
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_detail_container, fragment).commit();
+        }
+
+        //if (savedInstanceState != null) {
+
+
 
 
         getSupportActionBar().setIcon(R.mipmap.asu_icon);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //}
     }
 
     @Override
@@ -49,22 +51,10 @@ public class DetailActivity extends ActionBarActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
-            startActivity(intent);
-        }
-
         if (id == R.id.action_event){
             Intent intent = new Intent(this,EventActivity.class);
             startActivity(intent);
         }
-
-        if (id == R.id.action_admin_login){
-            Intent intent = new Intent(this,AdminActivity.class);
-            startActivity(intent);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

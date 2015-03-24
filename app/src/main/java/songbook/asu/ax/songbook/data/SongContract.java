@@ -17,6 +17,7 @@ public class SongContract {
     public static final String PATH_EVENT = "event";
     public static final String PATH_SONG_WITH_EVENT = "song_with_event";
     public static final String PATH_EVENT_HAS_SONG = "event_has_song";
+    public static final String PATH_EVENT_WITH_NAME = "event_with_name";
     public static final String LOG_TAG = SongContract.class.getSimpleName();
 
     public static final class EventTable implements BaseColumns{
@@ -63,10 +64,13 @@ public class SongContract {
 
         public static final String COLUMN_TEXT = "song_text";
 
-        public static Uri buildSongUri(String id) {
+        public static Uri buildSongUri() {
             //return ContentUris.withAppendedId(CONTENT_URI, id);
-            Log.v(LOG_TAG, CONTENT_URI.buildUpon().build().toString());
             return CONTENT_URI.buildUpon().build();//.appendPath("song").build();
+        }
+
+        public static Uri buildSongUriWithName(){
+            return CONTENT_URI.buildUpon().appendPath(PATH_EVENT_WITH_NAME).build();
         }
 
         public static Uri buildSongWithEventUri(){

@@ -2,11 +2,13 @@ package songbook.asu.ax.songbook.data;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -117,6 +119,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             songJsonStr = buffer.toString();
 
+            Log.v(LOG_TAG,songJsonStr);
             getSongDataFromJson(songJsonStr);
 
             String formattedDateString = Utilities.formatDateString(new Date());
@@ -127,7 +130,18 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             editor.apply();
 
         } catch (IOException e) {
+            /*new AlertDialog.Builder(getContext())
+                    .setTitle("Server down")
+                    .setMessage("The songbook server is down for now, syncing is not possible")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();*/
             Log.e(LOG_TAG, "Error ", e);
+
             // If the code didn't successfully get the weather data, there's no point in attempting
             // to parse it.
         } catch (JSONException e) {

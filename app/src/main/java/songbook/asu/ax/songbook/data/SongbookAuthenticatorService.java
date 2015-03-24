@@ -8,6 +8,7 @@ import android.os.IBinder;
  * Created by EIS i7 Gamer on 2015-03-03.
  */
 public class SongbookAuthenticatorService extends Service{
+
     // Instance field that stores the authenticator object
     private SongbookAuthenticator mAuthenticator;
 

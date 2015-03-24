@@ -1,8 +1,19 @@
 <resources>
 
+    <color name="white_opaque">#FFFFFF</color>
+    <color name="light_blue">#3399FF</color>
+    <color name="asu_blue">#000099</color>
+    <color name="grey">#D1D1E0</color>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.
+        <item name="android:shadowDx">1.2</item>
+        <item name="android:shadowDy">1.2</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowColor">#000000</item>
+        -->
+        <!--<item name="android:windowBackground">@color/white_opaque</item>
+        <item name="android:colorBackground">@color/white_opaque</item>-->
     </style>
 
 </resources>

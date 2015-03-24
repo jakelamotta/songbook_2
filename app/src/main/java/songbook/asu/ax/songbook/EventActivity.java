@@ -38,21 +38,12 @@ public class EventActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+/*        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this,SettingsActivity.class);
             startActivity(intent);
         }
-
-        if (id == R.id.action_allsongs){
-            startActivity(getParentActivityIntent());
-        }
-
-        if (id == R.id.action_admin_login){
-            Intent intent = new Intent(this,AdminActivity.class);
-            startActivity(intent);
-        }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 }

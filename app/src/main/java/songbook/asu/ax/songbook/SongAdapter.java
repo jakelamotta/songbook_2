@@ -54,13 +54,13 @@ public class SongAdapter extends CursorAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         // Get weather icon
-        viewHolder.iconView.setImageResource(R.mipmap.asu_icon);
+        viewHolder.iconView.setImageResource(R.mipmap.arrow);
 
         String name = cursor.getString(MainFragment.COL_SONG_NAME);
         viewHolder.nameView.setText(name);
 
         String melody = cursor.getString(MainFragment.COL_SONG_MELODY);
-        viewHolder.melodyView.setText(melody);
+        viewHolder.melodyView.setText(String.format(context.getString(R.string.melody),melody));
     }
 
     @Override
