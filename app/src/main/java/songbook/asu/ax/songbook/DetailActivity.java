@@ -30,11 +30,6 @@ public class DetailActivity extends ActionBarActivity{
                     .add(R.id.fragment_detail_container, fragment).commit();
         }
 
-        //if (savedInstanceState != null) {
-
-
-
-
         getSupportActionBar().setIcon(R.mipmap.asu_icon);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -42,7 +37,6 @@ public class DetailActivity extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

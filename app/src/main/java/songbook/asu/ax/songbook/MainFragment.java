@@ -58,8 +58,6 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
             SongContract.SongTable.COLUMN_LAST_UPADTED,
             SongContract.SongTable.COLUMN_TEXT};
 
-    // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
-    // must change.
     static final int COL_SONG_ID = 0;
     static final int COL_SONG_IDENTIFIER = 1;
     static final int COL_SONG_MELODY = 2;
@@ -69,17 +67,20 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG,"in onCreate");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.v(LOG_TAG,"in onCreateView");
         mSongAdapter = new SongAdapter(getActivity(),null,0);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_POSITION)){
             mPosition = savedInstanceState.getInt(SELECTED_POSITION);
         }
+
         View rootView = inflater.inflate(R.layout.fragment_main_ref, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.list_view_songs);
@@ -102,6 +103,7 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
                 mPosition = position;
             }
         });
+
 
         return rootView;
     }

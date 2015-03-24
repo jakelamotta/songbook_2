@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,7 +21,7 @@ public class MainActivity extends ActionBarActivity implements Callback{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "detail_fragment";
-    private boolean mTwoPane = true;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,37 +37,18 @@ public class MainActivity extends ActionBarActivity implements Callback{
         }
         else{
             mTwoPane = false;
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-            MainFragment fragment = new MainFragment();
-            fragmentTransaction.add(R.layout.fragment_main_ref, fragment);
-            fragmentTransaction.commit();
         }
 
         updateSongbook();
         getSupportActionBar().setIcon(R.mipmap.asu_icon);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        handleIntent(getIntent());
     }
 
-    @Override
-    protected void onNewIntent(Intent intent){
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent){
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())){
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            MainFragment fragment = (MainFragment) getSupportFragmentManager().getFragments().get(0);
-            fragment.filterByName(query);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         android.widget.SearchView searchView = (android.widget.SearchView) menu.findItem(R.id.search_menu_item).getActionView();
 
@@ -93,9 +75,6 @@ public class MainActivity extends ActionBarActivity implements Callback{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.action_event){
@@ -109,7 +88,6 @@ public class MainActivity extends ActionBarActivity implements Callback{
                     .setMessage(this.getString(R.string.info))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            // continue with delete
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -138,13 +116,12 @@ public class MainActivity extends ActionBarActivity implements Callback{
             intent.putExtra(MainFragment.SONG_NAME,name);
             startActivity(intent);
         }
-
     }
 
     @Override
     protected void onStart() {
-        updateSongbook();
         super.onStart();
+        updateSongbook();
     }
 
     @Override
@@ -158,8 +135,5 @@ public class MainActivity extends ActionBarActivity implements Callback{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-    public boolean getTwoPane(){
-        return this.mTwoPane;
     }
 }
