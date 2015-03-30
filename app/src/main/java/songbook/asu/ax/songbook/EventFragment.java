@@ -1,5 +1,7 @@
 package songbook.asu.ax.songbook;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -77,10 +79,8 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
-
-                    Log.v(LOG_TAG,"cursor is not null");
                     String name = cursor.getString(COL_SONG_NAME);
-                    String melody = cursor.getString(COL_SONG_MELODY);
+                    /*String melody = cursor.getString(COL_SONG_MELODY);
                     String text = cursor.getString(COL_SONG_TEXT);
 
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
@@ -91,6 +91,11 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
                     bundle.putString(MainFragment.MELODY, melody);
                     intent.putExtra(MainFragment.BUNDLE_KEY, bundle);
 
+                    startActivity(intent);*/
+                    Uri contentUri = SongContract.SongTable.buildSongUriWithName();
+                    Intent intent = new Intent(getActivity(),DetailActivity.class).setData(contentUri);
+                    intent.putExtra(MainFragment.SONG_NAME,name);
+
                     startActivity(intent);
                 }
             }
@@ -98,6 +103,7 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
 
         return rootView;
     }
+
 
     private void updateEventInfo() {
         if (mEventNameTextView == null){
