@@ -1,7 +1,5 @@
 package songbook.asu.ax.songbook;
 
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,19 +9,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Date;
 
 import songbook.asu.ax.songbook.data.SongContract;
+
 /**
  * Created by Kristian on 2015-03-10.
  */
@@ -80,18 +76,7 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
                     String name = cursor.getString(COL_SONG_NAME);
-                    /*String melody = cursor.getString(COL_SONG_MELODY);
-                    String text = cursor.getString(COL_SONG_TEXT);
 
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString(MainFragment.SONG_NAME, name);
-                    bundle.putString(MainFragment.TEXT, text);
-                    bundle.putString(MainFragment.MELODY, melody);
-                    intent.putExtra(MainFragment.BUNDLE_KEY, bundle);
-
-                    startActivity(intent);*/
                     Uri contentUri = SongContract.SongTable.buildSongUriWithName();
                     Intent intent = new Intent(getActivity(),DetailActivity.class).setData(contentUri);
                     intent.putExtra(MainFragment.SONG_NAME,name);
@@ -103,7 +88,6 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
 
         return rootView;
     }
-
 
     private void updateEventInfo() {
         if (mEventNameTextView == null){

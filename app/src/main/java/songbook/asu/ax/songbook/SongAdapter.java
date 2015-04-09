@@ -37,8 +37,6 @@ public class SongAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        int viewType = getItemViewType(cursor.getPosition());
-
         int layoutId = R.layout.list_item_song;
 
         View view = LayoutInflater.from(context).inflate(layoutId, viewGroup, false);
@@ -53,7 +51,7 @@ public class SongAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        viewHolder.iconView.setImageResource(R.mipmap.arrow);
+        viewHolder.iconView.setImageResource(R.mipmap.arrow_no_border);
 
         String name = cursor.getString(MainFragment.COL_SONG_NAME);
         viewHolder.nameView.setText(name);

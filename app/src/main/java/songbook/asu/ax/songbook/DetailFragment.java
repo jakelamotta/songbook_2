@@ -43,7 +43,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mNameView;
     private TextView mMelodyView;
     private TextView mTextView1;
-    private TextView mTextView2;
     private String mName;
 
     public DetailFragment(){
@@ -54,7 +53,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -121,4 +119,3 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         super.onActivityCreated(savedInstanceState);
     }
 }
-

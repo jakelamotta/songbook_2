@@ -67,14 +67,12 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in onCreate");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in onCreateView");
         mSongAdapter = new SongAdapter(getActivity(),null,0);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_POSITION)){
@@ -104,10 +102,8 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
             }
         });
 
-
         return rootView;
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

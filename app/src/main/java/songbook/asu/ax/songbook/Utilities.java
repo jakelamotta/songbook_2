@@ -2,19 +2,28 @@ package songbook.asu.ax.songbook;
 
 import android.util.Log;
 
-import java.sql.Date;
-import java.util.HashMap;
-
 /**
  * Created by Kristian on 2015-03-07.
  */
 public class Utilities {
 
     private static final String LOG_TAG = Utilities.class.getSimpleName();
+    private static final String JANUARY = "januari";
+    private static final String FEBRUARY = "februari";
+    private static final String MARCH = "mars";
+    private static final String APRIL = "april";
+    private static final String MAY = "maj";
+    private static final String JUNE = "juni";
+    private static final String JULY = "juli";
+    private static final String AUGUST = "augusti";
+    private static final String SEPTEMBER = "september";
+    private static final String OCTOBER = "oktober";
+    private static final String NOVEMBER = "november";
+    private static final String DECEMBER = "december";
 
     //For testing purposes
     public static void main(String[] argvs){
-java.util.Date date = new java.util.Date();
+        java.util.Date date = new java.util.Date();
         System.out.println(decorateDateString(formatDateString(date)));
     }
 
@@ -37,40 +46,40 @@ java.util.Date date = new java.util.Date();
 
         switch (month){
             case "01":
-                month = "Januari";
+                month = JANUARY;
                 break;
             case "02":
-                month = "Februari";
+                month = FEBRUARY;
                 break;
             case "03":
-                month = "Mars";
+                month = MARCH;
                 break;
             case "04":
-                month = "April";
+                month = APRIL;
                 break;
             case "05":
-                month = "Maj";
+                month = MAY;
                 break;
             case "06":
-                month = "Juni";
+                month = JUNE;
                 break;
             case "07":
-                month = "Juli";
+                month = JULY;
                 break;
             case "08":
-                month = "Augusti";
+                month = AUGUST;
                 break;
             case "09":
-                month = "September";
+                month = SEPTEMBER;
                 break;
             case "10":
-                month = "Oktober";
+                month = OCTOBER;
                 break;
             case "11":
-                month = "November";
+                month = NOVEMBER;
                 break;
             case "12":
-                month = "December";
+                month = DECEMBER;
                 break;
         }
 

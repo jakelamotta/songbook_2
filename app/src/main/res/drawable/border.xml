@@ -3,7 +3,7 @@
 android:shape="rectangle">
 <gradient
     android:startColor="@color/white_opaque"
-    android:endColor="#FFF5EE"
+    android:endColor="@color/white_opaque"
     android:angle="270"/>
 <padding android:bottom="2dp"
     android:top="2dp"/>
@@ -14,7 +14,7 @@ android:shape="rectangle">
     android:topLeftRadius="10dp"
     android:topRightRadius="10dp"/>
 </shape>
-
+    <!--"#FFF5EE"-->
     <!--
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke android:width="1dp" android:color="#808080" />

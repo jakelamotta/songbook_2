@@ -17,8 +17,11 @@
     <string name="event_label" color="@color/asu_blue">Event</string>
     <string name="current_song" color="@color/asu_blue">Current song</string>
     <string name="search_label">Search song</string>
-    <string name="welcome_label">Välkommen till ÅSUs sångbok!</string>
-    <string name="info">Created by Kristian Johansson (2015) \nEmail: kristian.johansson86@gmail.com</string>
+    <string name="welcome_label">Welcome to ÅSU Sångbok</string>
+    <string name="info">Created by Kristian Johansson (2015) \nEmail: kristian.developing@gmail.com</string>
+    <string name="past_events_label">Past events</string>
+    <string name="future_events_label">Future events</string>
+
 
     <!--ListItem-->
     <string name="melody">Mel: %1$s</string>

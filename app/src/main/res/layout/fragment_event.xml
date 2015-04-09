@@ -12,24 +12,24 @@
         android:orientation="vertical"
         >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:textSize="@dimen/abc_text_size_large_material"
-                android:id="@+id/event_name_tw"
-                android:paddingBottom="10dp"
-                android:paddingTop="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:id="@+id/event_name_tw"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:id="@+id/event_date_tw"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:id="@+id/event_date_tw"/>
 
-      </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,3 +46,4 @@
 
     </LinearLayout>
 </LinearLayout>
+
