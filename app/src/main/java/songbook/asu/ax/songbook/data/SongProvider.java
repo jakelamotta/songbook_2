@@ -226,6 +226,7 @@ public class SongProvider extends ContentProvider {
         switch (match) {
             case GUESTBOOK: {
                 long _id = db.insert(SongContract.GuestbookTable.NAME, null, values);
+                Log.v(LOG_TAG,Long.toString(_id));
 
                 if (_id > 0) {
                     returnUri = SongContract.GuestbookTable.buildGuestbookUri();

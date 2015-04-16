@@ -13,6 +13,10 @@
         android:title="@string/action_admin_login"
         app:showAsAction="never"/> -->
 
+    <itema android:id="@+id/action_guestbook"
+        android:title="action_guestbook_string"
+        app:showAsAction="always"/>
+
     <item android:id="@+id/search_menu_item"
         android:title="@string/search_label"
         android:icon="@drawable/abc_ic_search_api_mtrl_alpha"

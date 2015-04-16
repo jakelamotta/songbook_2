@@ -77,6 +77,7 @@ public class MainActivity extends ActionBarActivity implements Callback{
         int id = item.getItemId();
 
         if (id == R.id.action_guestbook){
+            Log.v(LOG_TAG,"action_guestbook");
             Intent intent = new Intent(this,GuestbookActivity.class);
             startActivity(intent);
         }

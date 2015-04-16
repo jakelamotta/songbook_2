@@ -106,7 +106,7 @@ public class SongContract {
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GUESTBOOK;
 
         public static String NAME = "guestbook";
-        public static String _ID = "id";
+        //public static String _ID = "_id";
 
         public static String COLUMN_POSTER = "poster";
         public static String COLUMN_ENTRY = "entry";
