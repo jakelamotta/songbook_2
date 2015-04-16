@@ -30,6 +30,7 @@ public class SongProvider extends ContentProvider {
     static final int EVENT = 101;
     static final int SONG_WITH_EVENT = 102;
     private static final int SONG_WITH_NAME = 103;
+    static final int GUESTBOOK = 104;
 
     private static SQLiteQueryBuilder songByEventQueryBuilder;
 
@@ -144,6 +145,19 @@ public class SongProvider extends ContentProvider {
         Cursor retCursor;
         int match = sUriMatcher.match(uri);
         switch (match) {
+            case GUESTBOOK: {
+
+                retCursor = mHelper.getReadableDatabase().query(
+                        SongContract.GuestbookTable.NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             case SONG: {
 
                 retCursor = mHelper.getReadableDatabase().query(
@@ -210,6 +224,16 @@ public class SongProvider extends ContentProvider {
         Uri returnUri;
 
         switch (match) {
+            case GUESTBOOK: {
+                long _id = db.insert(SongContract.GuestbookTable.NAME, null, values);
+
+                if (_id > 0) {
+                    returnUri = SongContract.GuestbookTable.buildGuestbookUri();
+                } else{
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+            }
             case SONG: {
                 long _id = db.insert(SongContract.SongTable.NAME, null, values);
                 if ( _id > 0 )
@@ -375,6 +399,7 @@ public class SongProvider extends ContentProvider {
         matcher.addURI(authority, SongContract.PATH_SONG, SONG);
         matcher.addURI(authority,SongContract.PATH_EVENT,EVENT);
         matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_EVENT_WITH_NAME,SONG_WITH_NAME);
+        matcher.addURI(authority,SongContract.PATH_GUESTBOOK,GUESTBOOK);
         return matcher;
     }
 }

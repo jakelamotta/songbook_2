@@ -19,6 +19,9 @@
     <item android:id="@+id/action_event"
         android:title="@string/event_label"
         app:showAsAction="always"/>
+    <itema android:id="@+id/action_guestbook"
+        android:title="@string/action_guestbook_string"
+        app:showAsAction="always"/>
 
     <item android:id="@+id/search_menu_item"
         android:title="@string/search_label"

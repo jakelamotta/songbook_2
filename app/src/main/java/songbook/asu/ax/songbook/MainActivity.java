@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import songbook.asu.ax.songbook.activities.GuestbookActivity;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
 
 
@@ -74,6 +75,11 @@ public class MainActivity extends ActionBarActivity implements Callback{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.action_guestbook){
+            Intent intent = new Intent(this,GuestbookActivity.class);
+            startActivity(intent);
+        }
 
         if (id == R.id.action_event){
             Intent intent = new Intent(this,EventActivity.class);

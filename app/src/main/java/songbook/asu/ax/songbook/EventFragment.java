@@ -145,6 +145,11 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     @Override
+    public void filterByMelody(String query) {
+
+    }
+
+    @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         int id = cursorLoader.getId();
 

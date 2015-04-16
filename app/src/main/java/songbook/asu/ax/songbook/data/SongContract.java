@@ -18,6 +18,8 @@ public class SongContract {
     public static final String PATH_SONG_WITH_EVENT = "song_with_event";
     public static final String PATH_EVENT_HAS_SONG = "event_has_song";
     public static final String PATH_EVENT_WITH_NAME = "event_with_name";
+    public static final String PATH_GUESTBOOK = "guestbook";
+
     public static final String LOG_TAG = SongContract.class.getSimpleName();
 
     public static final class EventTable implements BaseColumns{
@@ -94,6 +96,23 @@ public class SongContract {
         public static final String COLUMN_EVENT_ID = "event_id";
 
         public static Uri buildEventHasSongUri(String id){
+            return CONTENT_URI.buildUpon().build();
+        }
+    }
+
+    public static final class GuestbookTable implements BaseColumns{
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_GUESTBOOK).build();
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GUESTBOOK;
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GUESTBOOK;
+
+        public static String NAME = "guestbook";
+        public static String _ID = "id";
+
+        public static String COLUMN_POSTER = "poster";
+        public static String COLUMN_ENTRY = "entry";
+        public static String COLUMN_TIMESTAMP = "timestamp";
+
+        public static Uri buildGuestbookUri(){
             return CONTENT_URI.buildUpon().build();
         }
     }

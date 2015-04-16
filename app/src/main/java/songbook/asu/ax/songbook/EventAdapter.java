@@ -2,6 +2,7 @@ package songbook.asu.ax.songbook;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -35,7 +36,14 @@ public class EventAdapter extends CursorAdapter{
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return null;
+        int layoutId = R.layout.list_item_event;
+
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
+
+        return view;
     }
 
     @Override

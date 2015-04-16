@@ -1,5 +1,7 @@
 package songbook.asu.ax.songbook.fragments;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,12 +14,16 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import java.util.Date;
 
+import songbook.asu.ax.songbook.DetailActivity;
+import songbook.asu.ax.songbook.EventActivity;
 import songbook.asu.ax.songbook.EventAdapter;
+import songbook.asu.ax.songbook.MainFragment;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.Utilities;
 import songbook.asu.ax.songbook.data.SongContract;
@@ -48,14 +54,39 @@ public class EventCalendarFragment extends Fragment implements LoaderManager.Loa
 
     public static final int COL_EVENT_NAME = 1;
     public static final int COL_EVENT_DATE = 2;
+    public static final String EVENT_ID = "event_uri";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list_event, container, false);
 
         ListView listViewFutureEvents = (ListView) getActivity().findViewById(R.id.listview_future_events);
         ListView listViewPastEvents = (ListView) getActivity().findViewById(R.id.listview_past_events);
         ListView listViewTodayEvents = (ListView) getActivity().findViewById(R.id.listview_today_events);
+
+        AdapterView.OnItemClickListener onClickListener = new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+                if (cursor != null) {
+                    String name = cursor.getString(COL_EVENT_NAME);
+                    Intent intent = new Intent(getActivity(),EventActivity.class);
+                    intent.setData(SongContract.EventTable.buildEventUri(""));
+                    intent.putExtra(EVENT_ID,name);
+                    startActivity(intent);
+                }
+            }
+        };
+
+        listViewFutureEvents.setAdapter(futureEventAdapter);
+        listViewFutureEvents.setOnItemClickListener(onClickListener);
+
+        listViewPastEvents.setAdapter(pastEventAdapter);
+        listViewPastEvents.setOnItemClickListener(onClickListener);
+
+        listViewTodayEvents.setAdapter(todayEventAdapter);
+        listViewTodayEvents.setOnItemClickListener(onClickListener);
 
         return rootView;
     }
@@ -129,11 +160,15 @@ public class EventCalendarFragment extends Fragment implements LoaderManager.Loa
             case EVENT_PAST_LOADER:
                 pastEventAdapter.swapCursor(data);
                 break;
+            default:
+                throw new UnsupportedOperationException("Not a correct id");
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        futureEventAdapter.swapCursor(null);
+        todayEventAdapter.swapCursor(null);
+        pastEventAdapter.swapCursor(null);
     }
 }

@@ -7,6 +7,7 @@
     <string name="action_admin_login">Admin login</string>
     <string name="sync_song">Sync song</string>
     <string name="action_about">About</string>
+    <string name="action_guestbook_string">Guestbook</string>
 
     <!--Internal strings-->
     <string name="sync_account_type">songbook.asu.ax</string>
@@ -21,6 +22,7 @@
     <string name="info">Created by Kristian Johansson (2015) \nEmail: kristian.developing@gmail.com</string>
     <string name="past_events_label">Past events</string>
     <string name="future_events_label">Future events</string>
+    <string name="post_entry_button_text">Post entry</string>
 
 
     <!--ListItem-->

@@ -40,6 +40,11 @@ import songbook.asu.ax.songbook.data.SongSyncAdapter;
 public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,SongFilter {
 
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
+
+    @Override
+    public void filterByMelody(String query) {
+    }
+
     public static final String SONG_NAME = "song_name";
     public static final String MELODY = "melody";
     public static final String TEXT = "song_text";

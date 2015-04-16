@@ -44,6 +44,14 @@ public class SongDbHelper extends SQLiteOpenHelper {
                 SongContract.EventHasSongTable.COLUMN_SONG_ID + " INTEGER " +
                 " );";
 
+        final String SQL_CREATE_GUESTBOOK = "CREATE TABLE " + SongContract.GuestbookTable.NAME + " (" +
+                SongContract.GuestbookTable._ID + " INTEGER PRIMARY KEY, " +
+                SongContract.GuestbookTable.COLUMN_POSTER + " TEXT, " +
+                SongContract.GuestbookTable.COLUMN_ENTRY + " TEXT " +
+                SongContract.GuestbookTable.COLUMN_TIMESTAMP + " TEXT " +
+                " );";
+
+        db.execSQL(SQL_CREATE_GUESTBOOK);
         db.execSQL(SQL_CREATE_EVENT_HAS_SONG_TABLE);
         db.execSQL(SQL_CREATE_EVENT_TABLE);
         db.execSQL(SQL_CREATE_SONG_TABLE);
