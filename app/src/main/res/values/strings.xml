@@ -3,34 +3,42 @@
 
     <!--Actions-->
     <string name="app_name" translateable="false" color="@color/asu_blue">ÅSU Sångbok</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Inställningar</string>
     <string name="action_admin_login">Admin login</string>
     <string name="sync_song">Sync song</string>
-    <string name="action_about">About</string>
-    <string name="action_guestbook_string">Guestbook</string>
+    <string name="action_about">Info</string>
+    <string name="action_guestbook_string">Gästbok</string>
 
     <!--Internal strings-->
     <string name="sync_account_type">songbook.asu.ax</string>
     <string name="content_authority">"songbook.asu.ax.songbook"</string>
 
     <!--Labels-->
-    <string name="all_songs" color="@color/asu_blue">All songs</string>
-    <string name="event_label" color="@color/asu_blue">Event</string>
+    <string name="all_songs" color="@color/asu_blue">Alla sånger</string>
+    <string name="event_label" color="@color/asu_blue">Evenemang</string>
     <string name="current_song" color="@color/asu_blue">Current song</string>
-    <string name="search_label">Search song</string>
-    <string name="welcome_label">Welcome to ÅSU Sångbok</string>
-    <string name="info">Created by Kristian Johansson (2015) \nEmail: kristian.developing@gmail.com</string>
-    <string name="past_events_label">Past events</string>
-    <string name="future_events_label">Future events</string>
-    <string name="post_entry_button_text">Post entry</string>
-
+    <string name="search_label">Sök sång</string>
+    <string name="welcome_label">Välkomen till ÅSU Sångbok</string>
+    <string name="info">Skapad av Kristian Johansson (2015) \nEmail: kristian.developing@gmail.com</string>
+    <string name="past_events_label">Tidigare evenemang</string>
+    <string name="future_events_label">Framtida evenemang</string>
+    <string name="post_entry_button_text">Posta inlägg</string>
+    <string name="enter_entry">Skriv ditt inlägg här</string>
+    <string name="enter_name">Namn</string>
+    <string name="confirmation_dialog_title">Bekräfta borttagning</string>
+    <string name="really_quit">Är du säker på att du vill ta bort inlägget?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Ångra</string>
+    <string name="cancel">Ångra</string>
 
     <!--ListItem-->
     <string name="melody">Mel: %1$s</string>
+    <string name="poster">Postare: %1$s</string>
+    <string name="date">Tidpunkt: %1$s</string>
 
     <!--Messages-->
-    <string name="server_down">The songbook server is not available</string>
-    <string name="no_events">There are no events today</string>
+    <string name="server_down">Servern är inte tillgänglig, sångboken är inte uppdaterad</string>
+    <string name="no_events">Inga evenemang idag</string>
     <string name="no_current_song">Not singing any song right now</string>
-    <string name="no_songs">There are no songs for this event</string>
+    <string name="no_songs">Ingen sånglista för detta evenemang</string>
 </resources>

@@ -3,16 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".Activities.GuestbookActivity">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
 
+
+
+
+    <item android:id="@+id/action_event"
+        android:title="@string/event_label"
+        app:showAsAction="always"/>
+
+    <!--
     <item android:id="@+id/action_allsongs"
         android:title="@string/all_songs"
         app:showAsAction="always"/>
 
-    <!--<item android:id="@+id/action_admin_login"
+    <item android:id="@+id/action_admin_login"
         android:title="@string/action_admin_login"
-        app:showAsAction="never"/> -->
+        app:showAsAction="never"/>
+
+        <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="never" />
+
+        -->
 
     <item android:id="@+id/action_about"
         android:title="@string/action_about"

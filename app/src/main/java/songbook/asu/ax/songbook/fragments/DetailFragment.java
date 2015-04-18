@@ -1,4 +1,4 @@
-package songbook.asu.ax.songbook;
+package songbook.asu.ax.songbook.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,14 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.data.SongContract;
-import songbook.asu.ax.songbook.data.SongSyncAdapter;
 
 /**
  * Created by EIS i7 Gamer on 2015-03-02.

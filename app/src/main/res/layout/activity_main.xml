@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="songbook.asu.ax.songbook.MainFragment"
+        android:name="songbook.asu.ax.songbook.fragments.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@android:layout/list_content"/>

@@ -1,13 +1,21 @@
 package songbook.asu.ax.songbook;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import songbook.asu.ax.songbook.data.SongContract;
 import songbook.asu.ax.songbook.fragments.GuestbookFragment;
+import songbook.asu.ax.songbook.fragments.MainFragment;
 
 /**
  * Created by Kristian on 2015-04-16.
@@ -20,11 +28,13 @@ public class GuestbookEntryAdapter extends CursorAdapter {
         public final TextView entryText;
         public final TextView posterText;
         public final TextView timestampText;
+        public final ImageButton deleteButton;
 
         public ViewHolder(View view) {
             entryText = (TextView) view.findViewById(R.id.textview_entry);
             posterText = (TextView) view.findViewById(R.id.textview_poster);
             timestampText =(TextView) view.findViewById(R.id.textview_timestamp);
+            deleteButton = (ImageButton) view.findViewById(R.id.button_delete);
         }
     }
 
@@ -45,12 +55,35 @@ public class GuestbookEntryAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         viewHolder.entryText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_ENTRY));
 
         viewHolder.posterText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_POSTER));
         viewHolder.timestampText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_TIMESTAMP));
+
+        final String id = getCursor().getString(GuestbookFragment.COL_GUESTBOOK_ID);
+
+        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(context)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.confirmation_dialog_title)
+                        .setMessage(R.string.really_quit)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                context.getContentResolver().delete(SongContract.GuestbookTable.buildGuestbookUri(),SongContract.GuestbookTable._ID + " = ?",new String[]{id});
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, null)
+                        .show();
+            }
+        });
     }
 }

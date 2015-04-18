@@ -2,48 +2,72 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/sea_no_ships">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:paddingLeft="10dp"
+            android:weightSum="1">
 
             <EditText
-                android:layout_width="match_parent"
-                android:paddingLeft="10dp"
-                android:layout_height="wrap_content"
-                android:text="Enter your message here"
-                android:id="@+id/edit_entry"/>
+                android:layout_width="wrap_content"
+                android:background="@drawable/border_image"
+                android:layout_height="match_parent"
+                android:text="@string/enter_entry"
+                android:selectAllOnFocus="true"
+                android:id="@+id/edit_entry"
+                android:layout_weight="0.77" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="5"
             android:orientation="horizontal">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:text="Enter your name here"
-                android:id="@+id/edit_poster_name" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="11"
+                android:weightSum="1"
+                android:paddingLeft="10dp">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_height="wrap_content"
-                android:text="@string/post_entry_button_text"
-                android:id="@+id/post_entry_button"/>
+                <EditText
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/border_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:selectAllOnFocus="true"
+                    android:text="@string/enter_name"
+                    android:id="@+id/edit_poster_name"
+                    android:layout_weight="0.93" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="center"
+                android:paddingRight="20dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_entry_button_text"
+                    android:id="@+id/post_entry_button"/>
+
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -52,9 +76,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="5"
+        android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -64,7 +89,8 @@
                 android:id="@+id/listview_guestbook">
             </ListView>
 
-        </ScrollView>
+
+        </LinearLayout>
 
     </LinearLayout>
 

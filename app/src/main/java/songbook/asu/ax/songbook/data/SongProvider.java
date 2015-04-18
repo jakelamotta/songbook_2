@@ -264,6 +264,9 @@ public class SongProvider extends ContentProvider {
         // this makes delete all rows return the number of rows deleted
         if ( null == selection ) selection = "1";
         switch (match) {
+            case GUESTBOOK:
+                rowsDeleted = db.delete(SongContract.GuestbookTable.NAME,selection,selectionArgs);
+                break;
             case SONG:
                 rowsDeleted = db.delete(
                         SongContract.SongTable.NAME, selection, selectionArgs);

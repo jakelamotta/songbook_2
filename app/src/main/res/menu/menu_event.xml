@@ -2,19 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
-
-    <!--<item android:id="@+id/action_allsongs"
-        android:title="@string/all_songs"
-        app:showAsAction="always"/>
-
-    <item android:id="@+id/action_admin_login"
-        android:title="@string/action_admin_login"
-        app:showAsAction="never"/> -->
-
-    <itema android:id="@+id/action_guestbook"
-        android:title="action_guestbook_string"
+    <item android:id="@+id/action_guestbook"
+        android:title="@string/action_guestbook_string"
         app:showAsAction="always"/>
 
     <item android:id="@+id/search_menu_item"

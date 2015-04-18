@@ -1,4 +1,4 @@
-package songbook.asu.ax.songbook;
+package songbook.asu.ax.songbook.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +18,11 @@ import android.widget.TextView;
 
 import java.util.Date;
 
+import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.SongAdapter;
+import songbook.asu.ax.songbook.SongFilter;
+import songbook.asu.ax.songbook.Utilities;
+import songbook.asu.ax.songbook.activities.DetailActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 
 /**

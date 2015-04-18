@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.Random;
 
 import songbook.asu.ax.songbook.GuestbookEntryAdapter;
 import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.Utilities;
 import songbook.asu.ax.songbook.data.SongContract;
 
 /**
@@ -31,7 +33,7 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
     private static final String LOG_TAG = GuestbookFragment.class.getSimpleName();
     private static final int ENTRY_LOADER = 0;
 
-    private GuestbookEntryAdapter mGuestbookEntryAdapter;
+    private static GuestbookEntryAdapter mGuestbookEntryAdapter;
     private Cursor mCursor;
 
     private static final String[] GUESTBOOK_COLUMNS = {
@@ -48,7 +50,6 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in onCreateView");
         mGuestbookEntryAdapter = new GuestbookEntryAdapter(getActivity(),null,0);
 
         View rootView = inflater.inflate(R.layout.fragment_guestbook, container, false);
@@ -69,10 +70,10 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
                 Random rand = new Random();
 
                 ContentValues guestbookValues = new ContentValues();
-                //guestbookValues.put(SongContract.GuestbookTable._ID,5);
+
                 guestbookValues.put(SongContract.GuestbookTable.COLUMN_ENTRY,entryText);
-                guestbookValues.put(SongContract.GuestbookTable.COLUMN_POSTER,posterText);
-                guestbookValues.put(SongContract.GuestbookTable.COLUMN_TIMESTAMP,"test timestamp");
+                guestbookValues.put(SongContract.GuestbookTable.COLUMN_POSTER,String.format(getActivity().getString(R.string.poster),posterText));
+                guestbookValues.put(SongContract.GuestbookTable.COLUMN_TIMESTAMP, String.format(getActivity().getString(R.string.date),Utilities.getTimeStamp()));
 
                 getActivity().getContentResolver().insert(SongContract.GuestbookTable.buildGuestbookUri(),
                         guestbookValues);
@@ -84,9 +85,7 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v(LOG_TAG,"in onCreateLoader");
-
-        String sortOrder = SongContract.GuestbookTable.COLUMN_TIMESTAMP + " ASC";
+        String sortOrder = SongContract.GuestbookTable.COLUMN_TIMESTAMP + " DESC";
 
         Uri songUri = SongContract.GuestbookTable.buildGuestbookUri();
 
@@ -100,8 +99,6 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.v(LOG_TAG,"in onLoadFinished");
-
         int size = data.getColumnCount();
 
         for (int i=1;i<size;i++){
@@ -113,13 +110,11 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.v(LOG_TAG,"in onLoaderReset");
         mGuestbookEntryAdapter.swapCursor(null);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in onActivityCreated");
         getLoaderManager().initLoader(ENTRY_LOADER,null,this);
         super.onActivityCreated(savedInstanceState);
     }

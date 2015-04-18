@@ -1,11 +1,14 @@
-package songbook.asu.ax.songbook;
+package songbook.asu.ax.songbook.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import songbook.asu.ax.songbook.fragments.DetailFragment;
+import songbook.asu.ax.songbook.fragments.MainFragment;
+import songbook.asu.ax.songbook.R;
 
 /**
  * Created by EIS i7 Gamer on 2015-03-02.

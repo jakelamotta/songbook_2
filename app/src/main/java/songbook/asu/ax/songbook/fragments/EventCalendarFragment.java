@@ -1,6 +1,5 @@
 package songbook.asu.ax.songbook.fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,22 +7,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import java.util.Date;
 
-import songbook.asu.ax.songbook.DetailActivity;
-import songbook.asu.ax.songbook.EventActivity;
+import songbook.asu.ax.songbook.activities.EventActivity;
 import songbook.asu.ax.songbook.EventAdapter;
-import songbook.asu.ax.songbook.MainFragment;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.Utilities;
 import songbook.asu.ax.songbook.data.SongContract;

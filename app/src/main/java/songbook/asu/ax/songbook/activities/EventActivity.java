@@ -1,9 +1,13 @@
-package songbook.asu.ax.songbook;
+package songbook.asu.ax.songbook.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import songbook.asu.ax.songbook.fragments.EventFragment;
+import songbook.asu.ax.songbook.R;
 
 /**
  * Created by Kristian on 2015-03-10.
@@ -34,6 +38,11 @@ public class EventActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.action_guestbook){
+            Intent intent = new Intent(this,GuestbookActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 }

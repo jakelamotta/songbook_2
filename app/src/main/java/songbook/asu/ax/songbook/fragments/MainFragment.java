@@ -1,37 +1,25 @@
-package songbook.asu.ax.songbook;
+package songbook.asu.ax.songbook.fragments;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.FilterQueryProvider;
 import android.widget.ListView;
-import android.widget.Button;
-import android.widget.SearchView;
 
-import java.util.List;
-
+import songbook.asu.ax.songbook.Callback;
+import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.SongAdapter;
+import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.data.SongContract;
-import songbook.asu.ax.songbook.data.SongDbHelper;
-import songbook.asu.ax.songbook.data.SongProvider;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
 
 /**
@@ -63,12 +51,12 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
             SongContract.SongTable.COLUMN_LAST_UPADTED,
             SongContract.SongTable.COLUMN_TEXT};
 
-    static final int COL_SONG_ID = 0;
-    static final int COL_SONG_IDENTIFIER = 1;
-    static final int COL_SONG_MELODY = 2;
-    static final int COL_SONG_NAME = 3;
-    static final int COL_SONG_LASTUPDATED = 4;
-    static final int COL_SONG_TEXT = 5;
+    public static final int COL_SONG_ID = 0;
+    public static final int COL_SONG_IDENTIFIER = 1;
+    public static final int COL_SONG_MELODY = 2;
+    public static final int COL_SONG_NAME = 3;
+    public static final int COL_SONG_LASTUPDATED = 4;
+    public static final int COL_SONG_TEXT = 5;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -2,6 +2,8 @@ package songbook.asu.ax.songbook;
 
 import android.util.Log;
 
+import java.util.Date;
+
 /**
  * Created by Kristian on 2015-03-07.
  */
@@ -23,8 +25,9 @@ public class Utilities {
 
     //For testing purposes
     public static void main(String[] argvs){
-        java.util.Date date = new java.util.Date();
-        System.out.println(decorateDateString(formatDateString(date)));
+        //java.util.Date date = new java.util.Date();
+        //System.out.println(decorateDateString(formatDateString(date)));
+        System.out.println(getTimeStamp());
     }
 
     public static String formatDateString(java.util.Date date){
@@ -36,6 +39,27 @@ public class Utilities {
             throw new IllegalArgumentException();
         }
         return dateString;
+    }
+
+    public static String getTimeStamp(){
+        Date date = new Date();
+        String unformattedString = date.toString();
+        String formattedString;
+
+        String[] parts = unformattedString.split(" ");
+
+        String month = parts[1];
+        String day = parts[2];
+        String time = parts[3];
+        String year = parts[5];
+
+        String[] timeParts = time.split(":");
+        String hour = timeParts[0];
+        String min = timeParts[1];
+
+        formattedString = hour + ":" + min + " " + day + " " + month + " " + year;
+
+        return formattedString;
     }
 
     public static String decorateDateString(String formattedDate){

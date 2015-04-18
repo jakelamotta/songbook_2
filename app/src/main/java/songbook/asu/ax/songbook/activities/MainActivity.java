@@ -1,24 +1,23 @@
-package songbook.asu.ax.songbook;
+package songbook.asu.ax.songbook.activities;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import songbook.asu.ax.songbook.activities.GuestbookActivity;
+import songbook.asu.ax.songbook.Callback;
+import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
+import songbook.asu.ax.songbook.fragments.DetailFragment;
+import songbook.asu.ax.songbook.fragments.MainFragment;
 
 
-public class MainActivity extends ActionBarActivity implements Callback{
+public class MainActivity extends ActionBarActivity implements Callback {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "detail_fragment";
@@ -38,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements Callback{
         }
         else{
             mTwoPane = false;
+            setTitle("");
         }
 
         updateSongbook();
@@ -77,7 +77,6 @@ public class MainActivity extends ActionBarActivity implements Callback{
         int id = item.getItemId();
 
         if (id == R.id.action_guestbook){
-            Log.v(LOG_TAG,"action_guestbook");
             Intent intent = new Intent(this,GuestbookActivity.class);
             startActivity(intent);
         }
