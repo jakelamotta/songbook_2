@@ -26,11 +26,13 @@ public class SongProvider extends ContentProvider {
 
     private SongDbHelper mHelper;
 
-    static final int SONG = 100;
-    static final int EVENT = 101;
-    static final int SONG_WITH_EVENT = 102;
+    private static final int SONG = 100;
+    private static final int EVENT = 101;
+    private static final int SONG_WITH_EVENT = 102;
     private static final int SONG_WITH_NAME = 103;
-    static final int GUESTBOOK = 104;
+    private static final int GUESTBOOK = 104;
+    private static final int CATEGORY = 105;
+    private static final int SONG_WITH_CATEGORY = 106;
 
     private static SQLiteQueryBuilder songByEventQueryBuilder;
 
@@ -145,6 +147,30 @@ public class SongProvider extends ContentProvider {
         Cursor retCursor;
         int match = sUriMatcher.match(uri);
         switch (match) {
+            case CATEGORY: {
+                retCursor = mHelper.getReadableDatabase().query(
+                        SongContract.SongTable.NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case SONG_WITH_CATEGORY:{
+                retCursor = mHelper.getReadableDatabase().query(
+                        SongContract.SongTable.NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             case GUESTBOOK: {
 
                 retCursor = mHelper.getReadableDatabase().query(
@@ -159,7 +185,6 @@ public class SongProvider extends ContentProvider {
                 break;
             }
             case SONG: {
-
                 retCursor = mHelper.getReadableDatabase().query(
                         SongContract.SongTable.NAME,
                         projection,
@@ -404,6 +429,8 @@ public class SongProvider extends ContentProvider {
         matcher.addURI(authority,SongContract.PATH_EVENT,EVENT);
         matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_EVENT_WITH_NAME,SONG_WITH_NAME);
         matcher.addURI(authority,SongContract.PATH_GUESTBOOK,GUESTBOOK);
+        matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_SONG_WITH_CATEGORY,SONG_WITH_CATEGORY);
+        matcher.addURI(authority,SongContract.PATH_SONG + "/" + SongContract.PATH_CATEGORY,CATEGORY);
         return matcher;
     }
 }

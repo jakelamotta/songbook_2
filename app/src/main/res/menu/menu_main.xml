@@ -7,7 +7,6 @@
         android:title="@string/action_guestbook_string"
         app:showAsAction="always|collapseActionView"/>
 
-
     <item android:id="@+id/action_event"
         android:title="@string/event_label"
         app:showAsAction="always|collapseActionView"/>
@@ -17,6 +16,10 @@
         android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.widget.SearchView"/>
+
+    <item android:id="@+id/categories_menu_item"
+        android:title="@string/categories"
+        app:showAsAction="collapseActionView"/>
 
     <item android:id="@+id/action_about"
         android:title="@string/action_about"

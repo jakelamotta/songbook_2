@@ -6,4 +6,5 @@ package songbook.asu.ax.songbook;
 public interface SongFilter {
     public void filterByName(String query);
     public void filterByMelody(String query);
+    public void filterByCategory(String query);
 }

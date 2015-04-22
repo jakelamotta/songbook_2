@@ -16,9 +16,10 @@ public class SongContract {
     public static final String PATH_SONG = "song";
     public static final String PATH_EVENT = "event";
     public static final String PATH_SONG_WITH_EVENT = "song_with_event";
-    public static final String PATH_EVENT_HAS_SONG = "event_has_song";
+    public static final String PATH_SONG_WITH_CATEGORY = "song_with_category";
     public static final String PATH_EVENT_WITH_NAME = "event_with_name";
     public static final String PATH_GUESTBOOK = "guestbook";
+    public static final String PATH_CATEGORY = "category";
 
     public static final String LOG_TAG = SongContract.class.getSimpleName();
 
@@ -60,6 +61,7 @@ public class SongContract {
         //ID is used to query for songs from the server.
         public static final String COLUMN_SONG_ID = "song_key";
         public static final String COLUMN_SONG_MELODY = "song_melody";
+        public static final String COLUMN_CATEGORY = "song_category";
 
         //A version control value
         public static final String COLUMN_LAST_UPADTED = "last_updated";
@@ -76,11 +78,16 @@ public class SongContract {
         }
 
         public static Uri buildSongWithEventUri(){
-            Log.v(LOG_TAG, CONTENT_URI.buildUpon().appendPath(PATH_SONG_WITH_EVENT).build().toString());
             return CONTENT_URI.buildUpon().appendPath(PATH_SONG_WITH_EVENT).build();
         }
 
+        public static Uri buildSongWithCategoryUri(){
+            return CONTENT_URI.buildUpon().appendPath(PATH_SONG_WITH_CATEGORY).build();
+        }
 
+        public static Uri buildCategoryUri(){
+            return  CONTENT_URI.buildUpon().appendPath(PATH_CATEGORY).build();
+        }
     }
 
     public static final class EventHasSongTable implements BaseColumns{

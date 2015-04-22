@@ -11,7 +11,7 @@ import android.util.Log;
 public class SongDbHelper extends SQLiteOpenHelper {
 
     //Change this value when making db updates
-    private static final int DATABASE_VERSION = 21;
+    private static final int DATABASE_VERSION = 22;
     static final String DATABASE_NAME = "songs.db";
     private static final String LOG_TAG = SongDbHelper.class.getSimpleName();
 
@@ -21,12 +21,14 @@ public class SongDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         final String SQL_CREATE_SONG_TABLE = "CREATE TABLE " + SongContract.SongTable.NAME + " (" +
                 SongContract.SongTable._ID + " INTEGER PRIMARY KEY," +
                 SongContract.SongTable.COLUMN_SONG_NAME + " TEXT UNIQUE NOT NULL, " +
                 SongContract.SongTable.COLUMN_SONG_ID + " INTEGER UNIQUE NOT NULL, " +
                 SongContract.SongTable.COLUMN_SONG_MELODY + " TEXT, " +
                 SongContract.SongTable.COLUMN_LAST_UPADTED + " INTEGER, " +
+                SongContract.SongTable.COLUMN_CATEGORY + " TEXT, " +
                 SongContract.SongTable.COLUMN_TEXT + " TEXT" +
                 " );";
 

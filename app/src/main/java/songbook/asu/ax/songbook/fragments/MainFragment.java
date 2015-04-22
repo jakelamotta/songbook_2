@@ -38,12 +38,13 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
     public static final String TEXT = "song_text";
     public static final String BUNDLE_KEY = "fragment_bundle";
     private static final String SELECTED_POSITION = "selected_position";
+
     private SongAdapter mSongAdapter;
     private static final int SONG_LOADER = 0;
     private int mPosition = -1;
     private ListView mListView;
 
-    private static final String[] SONG_COLUMNS = {
+    public static final String[] SONG_COLUMNS = {
             SongContract.SongTable.NAME + "." + SongContract.SongTable._ID,
             SongContract.SongTable.COLUMN_SONG_ID,
             SongContract.SongTable.COLUMN_SONG_MELODY,
@@ -160,5 +161,23 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
                             null)
             );
         }
+    }
+
+    @Override
+    public void filterByCategory(String query) {
+
+        String noCategory = getActivity().getString(R.string.other_category);
+
+        if (query.equals(noCategory)){
+            query = "NULL";
+        }
+
+        mSongAdapter.swapCursor(getActivity().getContentResolver().query(
+                        SongContract.SongTable.buildSongUriWithName(),
+                        SONG_COLUMNS,
+                        SongContract.SongTable.COLUMN_SONG_NAME + " = ?",
+                        new String[]{query},
+                        null)
+        );
     }
 }

@@ -30,6 +30,8 @@
     <string name="yes">Ja</string>
     <string name="no">Ångra</string>
     <string name="cancel">Ångra</string>
+    <string name="categories">Kategorier</string>
+    <string name="other_category">Övrigt</string>
 
     <!--ListItem-->
     <string name="melody">Mel: %1$s</string>
