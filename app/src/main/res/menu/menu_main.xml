@@ -17,11 +17,17 @@
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.widget.SearchView"/>
 
-    <item android:id="@+id/action_category"
-        android:title="@string/categories"
+
+    <item android:id="@+id/action_add_song"
+        android:title="@string/web_page_link"
         app:showAsAction="collapseActionView"/>
 
     <item android:id="@+id/action_about"
         android:title="@string/action_about"
         app:showAsAction="never"/>
+
 </menu>
+    <!--<item android:id="@+id/action_category"
+            android:title="@string/categories"
+            app:showAsAction="collapseActionView"/>
+    -->

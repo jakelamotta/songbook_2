@@ -32,6 +32,10 @@
             android:label="@string/app_name"
             android:parentActivityName=".activities.MainActivity"></activity>
 
+        <activity android:name=".activities.SongsFromCategoryActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".activities.CategoryActivity"/>
+
         <activity android:name=".activities.GuestbookActivity"
             android:label="@string/app_name"
             android:parentActivityName=".activities.MainActivity"/>

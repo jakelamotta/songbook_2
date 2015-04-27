@@ -8,7 +8,8 @@
     tools:context="songbook.ax.asu.asu_songbook.MainFragment"
     android:orientation="vertical"
     android:background="@drawable/sea_no_ships"
-    android:fadingEdge="horizontal">
+    android:fadingEdge="horizontal"
+    android:tag="main_fragment">
 
     <LinearLayout
         android:layout_width="match_parent"

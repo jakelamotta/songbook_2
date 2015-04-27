@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -71,6 +72,14 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+
+        if (bundle != null){
+            if (bundle.containsKey(CategoryFragment.SELECTED_CATEGORY)) {
+                Log.v(LOG_TAG, bundle.getString(CategoryFragment.SELECTED_CATEGORY));
+            }
+        }
+
         mSongAdapter = new SongAdapter(getActivity(),null,0);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_POSITION)){

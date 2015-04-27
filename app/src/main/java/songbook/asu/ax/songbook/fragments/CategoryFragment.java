@@ -1,5 +1,6 @@
 package songbook.asu.ax.songbook.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import songbook.asu.ax.songbook.CategoryAdapter;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
+import songbook.asu.ax.songbook.activities.MainActivity;
+import songbook.asu.ax.songbook.activities.SongsFromCategoryActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 
 /**
@@ -29,14 +33,6 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
     private static final int SONG_LOADER = 0;
     private CategoryAdapter mCategoryAdapter;
     public static final String SELECTED_CATEGORY = "selected_category";
-
-    /*public static final String[] SONG_COLUMNS = {
-            SongContract.SongTable.NAME + "." + SongContract.SongTable._ID,
-            SongContract.SongTable.COLUMN_CATEGORY};
-
-
-    public static final int COL_CATEGORY = 1;
-*/
 
     public static final String[] SONG_COLUMNS = {
             SongContract.SongTable.NAME + "." + SongContract.SongTable._ID,
@@ -58,6 +54,7 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_category, container, false);
+        mCategoryAdapter = new CategoryAdapter(getActivity(),null,0);
 
         final ListView listView = (ListView) rootView.findViewById(R.id.list_view_category);
 
@@ -66,20 +63,9 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                MainFragment newFragment = new MainFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(SELECTED_CATEGORY,"other");
-                newFragment.setArguments(bundle);
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack if needed
-                transaction.replace(R.id.fragment_main,newFragment);
-                transaction.addToBackStack(null);
-
-                // Commit the transaction
-                transaction.commit();
+                Intent intent = new Intent(getActivity(),SongsFromCategoryActivity.class);
+                intent.putExtra(SELECTED_CATEGORY,"other");
+                startActivity(intent);
             }
         });
 
@@ -94,8 +80,9 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri songUri = SongContract.SongTable.buildSongUri();
-        String sortOrder = SongContract.SongTable.COLUMN_SONG_NAME + " ASC";
+        Uri songUri = SongContract.SongTable.buildCategoryUri();
+
+        String sortOrder = SongContract.SongTable.COLUMN_CATEGORY + " ASC";
 
         return new CursorLoader(getActivity(),
                 songUri,

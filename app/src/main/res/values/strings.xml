@@ -12,6 +12,7 @@
     <!--Internal strings-->
     <string name="sync_account_type">songbook.asu.ax</string>
     <string name="content_authority">"songbook.asu.ax.songbook"</string>
+    <string name="link_to_api">http://songbook.asu.ax/song/create</string>
 
     <!--Labels-->
     <string name="all_songs" color="@color/asu_blue">Alla sånger</string>
@@ -32,6 +33,7 @@
     <string name="cancel">Ångra</string>
     <string name="categories">Kategorier</string>
     <string name="other_category">Övrigt</string>
+    <string name="web_page_link">Add song</string>
 
     <!--ListItem-->
     <string name="melody">Mel: %1$s</string>

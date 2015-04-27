@@ -13,6 +13,7 @@ import songbook.asu.ax.songbook.Callback;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
+import songbook.asu.ax.songbook.fragments.CategoryFragment;
 import songbook.asu.ax.songbook.fragments.DetailFragment;
 import songbook.asu.ax.songbook.fragments.MainFragment;
 
@@ -81,14 +82,19 @@ public class MainActivity extends ActionBarActivity implements Callback {
             startActivity(intent);
         }
 
-        if (id == R.id.action_category){
+  /*      if (id == R.id.action_category){
             Intent intent = new Intent(this,CategoryActivity.class);
             startActivity(intent);
         }
-
+*/
         if (id == R.id.action_event){
             Intent intent = new Intent(this,EventActivity.class);
             startActivity(intent);
+        }
+
+        if (id == R.id.action_add_song){
+            Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_to_api)));
+            startActivity(myIntent);
         }
 
         if (id == R.id.action_about){

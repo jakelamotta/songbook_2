@@ -35,6 +35,15 @@ public class SongProvider extends ContentProvider {
     private static final int SONG_WITH_CATEGORY = 106;
 
     private static SQLiteQueryBuilder songByEventQueryBuilder;
+    private static SQLiteQueryBuilder uniqueCategoryQueryBuilder;
+
+    static{
+        uniqueCategoryQueryBuilder = new SQLiteQueryBuilder();
+        uniqueCategoryQueryBuilder.setTables(
+                SongContract.SongTable.NAME + " GROUP BY " +
+                SongContract.SongTable.COLUMN_CATEGORY
+        );
+    }
 
     static{
         songByEventQueryBuilder = new SQLiteQueryBuilder();
@@ -63,6 +72,16 @@ public class SongProvider extends ContentProvider {
 
     private static final String sSongWithName = SongContract.SongTable.NAME +
             "." + SongContract.SongTable.COLUMN_SONG_NAME + " = ?";
+
+    private Cursor getUniqueCategory(String[] projection, String sortOrder, String selection, String[] selectionArgs){
+        return uniqueCategoryQueryBuilder.query(mHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
+    }
 
     private Cursor getSongsByEvent(Uri uri, String[] projection, String sortOrder){
         String[] selectionArgs;
@@ -148,7 +167,8 @@ public class SongProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case CATEGORY: {
-                retCursor = mHelper.getReadableDatabase().query(
+                Log.v(LOG_TAG,"In category");
+                /*retCursor = mHelper.getReadableDatabase().query(
                         SongContract.SongTable.NAME,
                         projection,
                         selection,
@@ -156,7 +176,9 @@ public class SongProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder
-                );
+                )*/
+                retCursor = getUniqueCategory(projection,sortOrder,selection,selectionArgs);
+                Log.v(LOG_TAG,Integer.toString(retCursor.getCount()));
                 break;
             }
             case SONG_WITH_CATEGORY:{
