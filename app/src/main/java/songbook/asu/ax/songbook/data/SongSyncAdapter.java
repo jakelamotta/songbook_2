@@ -71,7 +71,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         // Construct the URL for the OpenWeatherMap query
         // Possible parameters are avaiable at OWM's forecast API page, at
         // http://openweathermap.org/API#forecast
-        final String SONG_BASE_URL = "http://83.255.37.175/songbook/dbtest.php?";
+        final String SONG_BASE_URL = "http://songbook.asu.ax/api/update";
         final String ID_PARAM = "song";
         final String TIME_PARAM = "timestamp";
         final String EVENT_PARAM = "event";
@@ -88,7 +88,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                     .appendQueryParameter(EVENT_PARAM,Utilities.formatDateString(new Date()))
                     .build();
 
-            //Log.v(LOG_TAG,builtUri.toString());
             URL url = new URL(builtUri.toString());
 
             // Create the request to OpenWeatherMap, and open the connection
@@ -107,7 +106,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = reader.readLine()) != null) {
-
                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                 // But it does make debugging a *lot* easier if you print out the completed
                 // buffer for debugging.
@@ -119,7 +117,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             }
             songJsonStr = buffer.toString();
 
-            Log.v(LOG_TAG,songJsonStr);
             getSongDataFromJson(songJsonStr);
 
             String formattedDateString = Utilities.formatDateString(new Date());
@@ -130,16 +127,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             editor.apply();
 
         } catch (IOException e) {
-            /*new AlertDialog.Builder(getContext())
-                    .setTitle("Server down")
-                    .setMessage("The songbook server is down for now, syncing is not possible")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // continue with delete
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();*/
             Log.e(LOG_TAG, "Error ", e);
 
             // If the code didn't successfully get the weather data, there's no point in attempting
@@ -264,12 +251,20 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 String id = tempObj.getString("id");
                 String melody = tempObj.getString("melody");
                 String text = tempObj.getString("text");
+                String category = tempObj.getString("category");
+
+                if (category.isEmpty()){
+                    category = "other";
+                }
+
+                Log.v(LOG_TAG,category);
 
                 ContentValues songValues = new ContentValues();
                 songValues.put(SongContract.SongTable.COLUMN_SONG_ID, id);
                 songValues.put(SongContract.SongTable.COLUMN_SONG_NAME, key);
                 songValues.put(SongContract.SongTable.COLUMN_SONG_MELODY, melody);
                 songValues.put(SongContract.SongTable.COLUMN_TEXT, text);
+                songValues.put(SongContract.SongTable.COLUMN_CATEGORY,category);
                 songValues.put(SongContract.SongTable.COLUMN_LAST_UPADTED,"20150306");
                 cVVector.add(songValues);
             }

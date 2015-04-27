@@ -19,6 +19,7 @@ import songbook.asu.ax.songbook.Callback;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
+import songbook.asu.ax.songbook.activities.CategoryActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
 
@@ -40,6 +41,7 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
     private static final String SELECTED_POSITION = "selected_position";
 
     private SongAdapter mSongAdapter;
+    private String mCategory = null;
     private static final int SONG_LOADER = 0;
     private int mPosition = -1;
     private ListView mListView;
@@ -50,7 +52,8 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
             SongContract.SongTable.COLUMN_SONG_MELODY,
             SongContract.SongTable.COLUMN_SONG_NAME,
             SongContract.SongTable.COLUMN_LAST_UPADTED,
-            SongContract.SongTable.COLUMN_TEXT};
+            SongContract.SongTable.COLUMN_TEXT,
+            SongContract.SongTable.COLUMN_CATEGORY};
 
     public static final int COL_SONG_ID = 0;
     public static final int COL_SONG_IDENTIFIER = 1;
@@ -58,6 +61,7 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
     public static final int COL_SONG_NAME = 3;
     public static final int COL_SONG_LASTUPDATED = 4;
     public static final int COL_SONG_TEXT = 5;
+    public static final int COL_CATEGORY = 6;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,9 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_POSITION)){
             mPosition = savedInstanceState.getInt(SELECTED_POSITION);
+            if (savedInstanceState.containsKey(CategoryActivity.SELECTED_CATEGORY)){
+                mCategory = savedInstanceState.getString(CategoryActivity.SELECTED_CATEGORY);
+            }
         }
 
         View rootView = inflater.inflate(R.layout.fragment_main_ref, container, false);
@@ -142,6 +149,9 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
         if (mPosition != ListView.INVALID_POSITION){
             mListView.smoothScrollToPosition(mPosition);
             mListView.setItemChecked(mPosition,true);
+        }
+        if (mCategory != null){
+            this.filterByCategory(mCategory);
         }
     }
 

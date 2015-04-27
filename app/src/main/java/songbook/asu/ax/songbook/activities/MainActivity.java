@@ -81,6 +81,11 @@ public class MainActivity extends ActionBarActivity implements Callback {
             startActivity(intent);
         }
 
+        if (id == R.id.action_category){
+            Intent intent = new Intent(this,CategoryActivity.class);
+            startActivity(intent);
+        }
+
         if (id == R.id.action_event){
             Intent intent = new Intent(this,EventActivity.class);
             startActivity(intent);

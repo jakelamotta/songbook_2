@@ -17,7 +17,7 @@
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.widget.SearchView"/>
 
-    <item android:id="@+id/categories_menu_item"
+    <item android:id="@+id/action_category"
         android:title="@string/categories"
         app:showAsAction="collapseActionView"/>
 
