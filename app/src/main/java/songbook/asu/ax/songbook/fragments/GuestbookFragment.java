@@ -77,6 +77,10 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
 
                 getActivity().getContentResolver().insert(SongContract.GuestbookTable.buildGuestbookUri(),
                         guestbookValues);
+
+
+                editTextEntry.setText(getResources().getString(R.string.enter_entry));
+                editTextPoster.setText(getResources().getString(R.string.enter_name));
             }
         });
 

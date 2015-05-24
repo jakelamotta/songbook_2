@@ -10,7 +10,7 @@
     android:background="@drawable/sea_no_ships"
     android:fadingEdge="horizontal"
     android:tag="main_fragment">
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textStyle="bold"
             android:typeface="sans"
             android:text="@string/welcome_label"/>
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <LinearLayout
