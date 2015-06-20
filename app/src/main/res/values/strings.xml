@@ -29,11 +29,11 @@
     <string name="confirmation_dialog_title">Bekräfta borttagning</string>
     <string name="really_quit">Är du säker på att du vill ta bort inlägget?</string>
     <string name="yes">Ja</string>
-    <string name="no">Ångra</string>
+    <string name="no">Nej</string>
     <string name="cancel">Ångra</string>
     <string name="categories">Kategorier</string>
     <string name="other_category">Övrigt</string>
-    <string name="web_page_link">Add song</string>
+    <string name="web_page_link">Lägg till sång</string>
 
     <!--ListItem-->
     <string name="melody">Mel: %1$s</string>
@@ -45,4 +45,9 @@
     <string name="no_events">Inga evenemang idag</string>
     <string name="no_current_song">Not singing any song right now</string>
     <string name="no_songs">Ingen sånglista för detta evenemang</string>
+
+
+    <bool name="showEventMenuItem">true</bool>
+    <bool name="showCategoryMenuItem">true</bool>
+    <bool name="showGuestbookMenuItem">true</bool>
 </resources>

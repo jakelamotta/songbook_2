@@ -9,12 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.activities.DetailActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 
 /**
@@ -55,7 +57,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_detail_ref, container, false);
+        int layoutReference = R.layout.fragment_detail_ref;
+
+        if (getActivity().getClass().getSimpleName().equals(DetailActivity.class.getSimpleName())){
+            layoutReference = R.layout.fragment_detail_ref2;
+        }
+
+        View rootView = inflater.inflate(layoutReference, container, false);
 
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(DETAIL_URI)  ) {

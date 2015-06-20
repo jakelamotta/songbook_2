@@ -13,7 +13,7 @@ import songbook.asu.ax.songbook.R;
 /**
  * Created by EIS i7 Gamer on 2015-03-02.
  */
-public class DetailActivity extends ActionBarActivity{
+public class DetailActivity extends SongbookActivity{
 
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
@@ -46,12 +46,6 @@ public class DetailActivity extends ActionBarActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_event){
-            Intent intent = new Intent(this,EventActivity.class);
-            startActivity(intent);
-        }
         return super.onOptionsItemSelected(item);
     }
 }

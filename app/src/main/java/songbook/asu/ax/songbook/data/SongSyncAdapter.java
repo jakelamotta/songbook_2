@@ -42,8 +42,8 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public final String LOG_TAG = SongSyncAdapter.class.getSimpleName();
     // Interval at which to sync with the weather, in milliseconds.
-    // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60 * 180;
+    // 60 seconds (1 minute) * 60 * 24 = 24 hours
+    public static final int SYNC_INTERVAL = 60 * 60 * 24;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     private static final int SONG_NOTIFICATION_ID = 3004;

@@ -16,7 +16,7 @@ import songbook.asu.ax.songbook.fragments.MainFragment;
 /**
  * Created by EIS i7 Gamer on 2015-04-22.
  */
-public class CategoryActivity extends ActionBarActivity{
+public class CategoryActivity extends SongbookActivity{
 
     public static final String SELECTED_CATEGORY = "category";
     private static final String LOG_TAG = CategoryActivity.class.getSimpleName();
@@ -36,36 +36,18 @@ public class CategoryActivity extends ActionBarActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_categories, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_event){
-            Intent intent = new Intent(this,EventActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.action_guestbook){
-            Intent intent = new Intent(this,GuestbookActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.action_about){
-            new AlertDialog.Builder(this)
-                    .setTitle(this.getString(R.string.action_about))
-                    .setMessage(this.getString(R.string.info))
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }
