@@ -3,11 +3,13 @@ package songbook.asu.ax.songbook.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import songbook.asu.ax.songbook.Callback;
 import songbook.asu.ax.songbook.R;
@@ -23,26 +25,31 @@ public class MainActivity extends SongbookActivity implements Callback {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "detail_fragment";
     private boolean mTwoPane;
+    private int mOrientation = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkWidth(savedInstanceState);
+
+        //updateSongbook();
+        getSupportActionBar().setIcon(R.mipmap.asu_icon);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void checkWidth(Bundle savedInstanceState) {
         if (findViewById(R.id.song_detail_container) != null){
             mTwoPane = true;
             if (savedInstanceState == null){
-                    getSupportFragmentManager().beginTransaction()
+                getSupportFragmentManager().beginTransaction()
                         .replace(R.id.song_detail_container, new DetailFragment()).commit();
             }
         }
         else{
             mTwoPane = false;
         }
-
-        updateSongbook();
-        getSupportActionBar().setIcon(R.mipmap.asu_icon);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
@@ -67,6 +74,17 @@ public class MainActivity extends SongbookActivity implements Callback {
         return true;
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_main);
+/*
+        if (this.mOrientation == -1 || newConfig.orientation != this.mOrientation) {
+            checkWidth(null);
+            this.mOrientation = newConfig.orientation;
+        }*/
+    }
+
     private void updateSongbook(){
         SongSyncAdapter.syncImmediately(this);
     }
@@ -75,6 +93,7 @@ public class MainActivity extends SongbookActivity implements Callback {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onItemSelected(Uri contentUri,String name){

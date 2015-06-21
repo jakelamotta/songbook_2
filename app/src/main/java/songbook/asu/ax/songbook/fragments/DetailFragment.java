@@ -1,9 +1,11 @@
 package songbook.asu.ax.songbook.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -45,6 +47,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView mMelodyView;
     private TextView mTextView1;
     private String mName;
+    private PowerManager.WakeLock wakeLock;
 
     public DetailFragment(){
         setHasOptionsMenu(true);
@@ -52,6 +55,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "wltag");
+        wakeLock.acquire();
+
         super.onCreate(savedInstanceState);
     }
 
@@ -124,5 +131,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(SONG_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        wakeLock.release();
+        super.onDestroy();
     }
 }

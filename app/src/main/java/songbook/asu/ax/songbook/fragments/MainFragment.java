@@ -21,6 +21,7 @@ import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.activities.CategoryActivity;
+import songbook.asu.ax.songbook.activities.MainActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
 
@@ -137,6 +138,8 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
         outState.putInt(SELECTED_POSITION,mPosition);
         super.onSaveInstanceState(outState);
     }
+
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {

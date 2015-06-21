@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="horizontal"
+    android:configChanges="orientation"
     android:divider="?@android:attr/dividerHorizontal"
     tools:context="songbook.ax.asu.asu_songbook.MainActivity">
 
