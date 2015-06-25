@@ -3,13 +3,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sea_no_ships"
     >
 
     <LinearLayout
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="3"
         android:background="@drawable/border">
 
         <LinearLayout
@@ -38,29 +40,25 @@
                 android:id="@+id/melody_textview_detail"
                 android:textSize="@dimen/abc_text_size_subhead_material"
                 android:textStyle="italic"/>
-
         </LinearLayout>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="5dp"
-        android:layout_weight="11"
+        android:layout_weight="22"
         android:background="@drawable/border">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="25dp"
-                        android:paddingLeft="30dp"
-                        android:gravity="center_horizontal"
-                        android:text="This is the second verse"
-                        android:id="@+id/text_text_view_detail"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="15dp"
+                android:gravity="center_horizontal"
+                android:id="@+id/text_text_view_detail"/>
         </ScrollView>
 
     </LinearLayout>

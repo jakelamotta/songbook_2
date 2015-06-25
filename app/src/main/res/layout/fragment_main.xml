@@ -10,24 +10,6 @@
     android:background="@drawable/sea_no_ships"
     android:fadingEdge="horizontal"
     android:tag="main_fragment">
-<!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_weight="2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingBottom="25dp"
-            android:textSize="@dimen/abc_text_size_headline_material"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:text="@string/welcome_label"/>
-    </LinearLayout>-->
-
 
     <LinearLayout
         android:layout_width="match_parent"

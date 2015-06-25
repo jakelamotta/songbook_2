@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
 
 /**
@@ -24,11 +25,11 @@ public class SongbookActivity extends ActionBarActivity {
             Intent intent = new Intent(this,GuestbookActivity.class);
             startActivity(intent);
         }
-        /*
+
         if (id == R.id.action_category){
             Intent intent = new Intent(this,CategoryActivity.class);
             startActivity(intent);
-        }*/
+        }
 
         if (id == R.id.action_event){
             Intent intent = new Intent(this,EventActivity.class);

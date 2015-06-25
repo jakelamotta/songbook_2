@@ -257,8 +257,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                     category = "other";
                 }
 
-                Log.v(LOG_TAG,category);
-
                 ContentValues songValues = new ContentValues();
                 songValues.put(SongContract.SongTable.COLUMN_SONG_ID, id);
                 songValues.put(SongContract.SongTable.COLUMN_SONG_NAME, key);

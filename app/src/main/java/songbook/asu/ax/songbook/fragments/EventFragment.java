@@ -160,6 +160,16 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     @Override
+    public void setCategoryMode(boolean b) {
+
+    }
+
+    @Override
+    public void setCurrentCategory(String stringExtra) {
+
+    }
+
+    @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         int id = cursorLoader.getId();
 

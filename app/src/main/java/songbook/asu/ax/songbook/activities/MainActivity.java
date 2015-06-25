@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,15 +26,23 @@ public class MainActivity extends SongbookActivity implements Callback {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "detail_fragment";
     private boolean mTwoPane;
-    private int mOrientation = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkWidth(savedInstanceState);
+        Intent intent = getIntent();
 
+        if (intent != null){
+            if (intent.hasExtra(CategoryFragment.SELECTED_CATEGORY)){
+                SongFilter filter = (SongFilter) getSupportFragmentManager().getFragments().get(0);
+                filter.setCategoryMode(true);
+                filter.setCurrentCategory(intent.getStringExtra(CategoryFragment.SELECTED_CATEGORY));
+            }
+        }
+
+        checkWidth(savedInstanceState);
         //updateSongbook();
         getSupportActionBar().setIcon(R.mipmap.asu_icon);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

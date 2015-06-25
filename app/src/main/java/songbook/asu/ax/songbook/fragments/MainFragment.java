@@ -31,6 +31,10 @@ import songbook.asu.ax.songbook.data.SongSyncAdapter;
 public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,SongFilter {
 
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
+    private static final String CATEGORY_MODE = "category_mode";
+    private static final String CURRENT_CATEGORY = "current_category";
+    private boolean mCategoryMode = false;
+    private String mCurrentCategory = null;
 
     @Override
     public void filterByMelody(String query) {
@@ -78,6 +82,10 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
         if (bundle != null){
             if (bundle.containsKey(CategoryFragment.SELECTED_CATEGORY)) {
                 Log.v(LOG_TAG, bundle.getString(CategoryFragment.SELECTED_CATEGORY));
+            }
+            if (bundle.containsKey(CATEGORY_MODE)){
+                this.mCategoryMode = bundle.getBoolean(CATEGORY_MODE);
+                this.mCurrentCategory = bundle.getString(CURRENT_CATEGORY);
             }
         }
 
@@ -143,6 +151,15 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        Bundle arguments = getArguments();
+
+        if (arguments != null){
+            if (arguments.containsKey(CATEGORY_MODE)){
+                this.mCategoryMode = arguments.getBoolean(CATEGORY_MODE);
+                this.mCurrentCategory = arguments.getString(CURRENT_CATEGORY);
+            }
+        }
+
         String sortOrder = SongContract.SongTable.COLUMN_SONG_NAME + " ASC";
 
         Uri songUri = SongContract.SongTable.buildSongUri();
@@ -162,9 +179,16 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
             mListView.smoothScrollToPosition(mPosition);
             mListView.setItemChecked(mPosition,true);
         }
-        if (mCategory != null){
-            this.filterByCategory(mCategory);
+        if (mCategoryMode && mCurrentCategory != null){
+            this.filterByName("1600-talet");
         }
+
+        Bundle bundle = getArguments();
+        if (bundle == null){
+            bundle = new Bundle();
+        }
+        bundle.putBoolean(CATEGORY_MODE,mCategoryMode);
+        bundle.putString(CURRENT_CATEGORY,mCurrentCategory);
     }
 
     @Override
@@ -197,9 +221,61 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
         mSongAdapter.swapCursor(getActivity().getContentResolver().query(
                         SongContract.SongTable.buildSongUriWithName(),
                         SONG_COLUMNS,
-                        SongContract.SongTable.COLUMN_SONG_NAME + " = ?",
+                        SongContract.SongTable.COLUMN_CATEGORY + " = ?",
                         new String[]{query},
                         null)
         );
+    }
+
+    @Override
+    public void setCategoryMode(boolean b) {
+        this.mCategoryMode = b;
+    }
+
+    @Override
+    public void setCurrentCategory(String stringExtra) {
+        this.mCurrentCategory = stringExtra;
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.v(LOG_TAG,"on destroy");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.v(LOG_TAG,"on destroy view");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onStop() {
+        Bundle bundle = getArguments();
+        if (bundle == null){
+            bundle = new Bundle();
+        }
+        bundle.putBoolean(CATEGORY_MODE,mCategoryMode);
+        bundle.putString(CURRENT_CATEGORY,mCurrentCategory);
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        Bundle bundle = getArguments();
+
+        if (bundle != null){
+            if (bundle.containsKey(CATEGORY_MODE)){
+                this.mCategoryMode = bundle.getBoolean(CATEGORY_MODE);
+                this.mCurrentCategory = bundle.getString(CURRENT_CATEGORY);
+            }
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    public void onDetach() {
+        Log.v(LOG_TAG, "detach");
     }
 }
