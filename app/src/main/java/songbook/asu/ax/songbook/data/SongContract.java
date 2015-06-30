@@ -123,7 +123,6 @@ public class SongContract {
             return CONTENT_URI.buildUpon().build();
         }
     }
-
 }
 
 

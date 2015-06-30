@@ -47,8 +47,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     private static final int SONG_NOTIFICATION_ID = 3004;
-    private static final String PREFERENCE_UPDATED = "preference_last_updated";
-
+    private static final String PREFERENCE_UPDATED = "preference_last_synced";
     public SongSyncAdapter(Context context, boolean autoInitialize){
         super(context, autoInitialize);
     }
@@ -60,7 +59,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         String last_updated = prefs.getString(PREFERENCE_UPDATED,"20010101");
         // Will contain the raw JSON response as a string.
@@ -71,7 +69,11 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         // Construct the URL for the OpenWeatherMap query
         // Possible parameters are avaiable at OWM's forecast API page, at
         // http://openweathermap.org/API#forecast
-        final String SONG_BASE_URL = "http://songbook.asu.ax/api/update";
+        final String SONGBOOK_BASE_URL = "http://songbook.asu.ax/api/";
+        final String SONG_URL = SONGBOOK_BASE_URL + "song";
+        final String EVENT_URL = SONGBOOK_BASE_URL + "event";
+        final String GUESTBOOK_URL = SONGBOOK_BASE_URL + "message";
+        final String GUESTBOOK_AFTER_DATE_URL = GUESTBOOK_URL + "/after/";
         final String ID_PARAM = "song";
         final String TIME_PARAM = "timestamp";
         final String EVENT_PARAM = "event";
@@ -82,7 +84,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             String timestamp;
             String event;
 
-            builtUri = Uri.parse(SONG_BASE_URL).buildUpon()
+            builtUri = Uri.parse(SONG_URL).buildUpon()
                     .appendQueryParameter(ID_PARAM,"0")
                     .appendQueryParameter(TIME_PARAM, last_updated)
                     .appendQueryParameter(EVENT_PARAM,Utilities.formatDateString(new Date()))
@@ -121,6 +123,44 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
 
             String formattedDateString = Utilities.formatDateString(new Date());
 
+            /***************************************************************************************
+             ************************GET GUESTBOOK ENTRIES******************************************
+             *************************************************************************************/
+
+            builtUri = Uri.parse(GUESTBOOK_URL).buildUpon()
+                    .build();
+
+            url = new URL(builtUri.toString());
+
+            // Create the request to OpenWeatherMap, and open the connection
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            // Read the input stream into a String
+            inputStream = urlConnection.getInputStream();
+            buffer = new StringBuffer();
+
+            if (inputStream == null) {
+                return;
+            }
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            while ((line = reader.readLine()) != null) {
+                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                // But it does make debugging a *lot* easier if you print out the completed
+                // buffer for debugging.
+                buffer.append(line + "\n");
+            }
+            if (buffer.length() == 0) {
+                // Stream was empty. No point in parsing.
+                return;
+            }
+            String guestbookJsonStr = buffer.toString();
+
+            getGuestbookDataFromJson(guestbookJsonStr);
+
+
             //Update the shared preference
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString(PREFERENCE_UPDATED,formattedDateString);
@@ -147,6 +187,49 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             }
         }
         return;
+    }
+
+    private void getGuestbookDataFromJson(String guestbookJsonStr) {
+
+        try {
+            JSONObject songListJson = new JSONObject(guestbookJsonStr);
+
+            JSONObject entryArray = songListJson.getJSONObject("songs");
+
+            Iterator keys = entryArray.keys();
+
+            Vector<ContentValues> cVVector = new Vector<ContentValues>(entryArray.length());
+            String key;
+            JSONObject tempObj;
+            while (keys.hasNext()){
+                key = keys.next().toString();
+                tempObj = new JSONObject(entryArray.getString(key));
+                String id = tempObj.getString("id");
+                String name = tempObj.getString("name");
+                String body = tempObj.getString("body");
+                String timestamp_ = tempObj.getString("timestamp");
+
+                ContentValues entryValues = new ContentValues();
+                entryValues.put(SongContract.SongTable.COLUMN_SONG_ID, id);
+                entryValues.put(SongContract.GuestbookTable.COLUMN_POSTER, name);
+                entryValues.put(SongContract.GuestbookTable.COLUMN_ENTRY, body);
+                entryValues.put(SongContract.GuestbookTable.COLUMN_TIMESTAMP, timestamp_);
+                cVVector.add(entryValues);
+            }
+
+            int inserted = 0;
+
+            // add to database
+            if (cVVector.size() > 0) {
+                ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                cVVector.toArray(cvArray);
+                getContext().getContentResolver().bulkInsert(SongContract.GuestbookTable.CONTENT_URI, cvArray);
+            }
+
+        }
+        catch (Exception e){
+            Log.e(LOG_TAG,e.getMessage());
+        }
     }
 
     public static void syncImmediately(Context context) {

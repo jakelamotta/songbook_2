@@ -61,7 +61,6 @@ public class MainActivity extends SongbookActivity implements Callback {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -87,11 +86,6 @@ public class MainActivity extends SongbookActivity implements Callback {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_main);
-/*
-        if (this.mOrientation == -1 || newConfig.orientation != this.mOrientation) {
-            checkWidth(null);
-            this.mOrientation = newConfig.orientation;
-        }*/
     }
 
     private void updateSongbook(){
@@ -129,18 +123,5 @@ public class MainActivity extends SongbookActivity implements Callback {
     protected void onStart() {
         super.onStart();
         updateSongbook();
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

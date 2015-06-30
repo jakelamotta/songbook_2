@@ -152,8 +152,11 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Bundle arguments = getArguments();
+        Log.v(LOG_TAG, "in onCreateloader");
 
         if (arguments != null){
+            Log.v(LOG_TAG, "arguments was not null");
+
             if (arguments.containsKey(CATEGORY_MODE)){
                 this.mCategoryMode = arguments.getBoolean(CATEGORY_MODE);
                 this.mCurrentCategory = arguments.getString(CURRENT_CATEGORY);
@@ -180,9 +183,8 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
             mListView.setItemChecked(mPosition,true);
         }
         if (mCategoryMode && mCurrentCategory != null){
-            this.filterByName("1600-talet");
+            this.filterByCategory(mCurrentCategory);
         }
-
         Bundle bundle = getArguments();
         if (bundle == null){
             bundle = new Bundle();
