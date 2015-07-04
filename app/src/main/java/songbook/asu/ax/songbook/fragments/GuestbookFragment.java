@@ -91,10 +91,10 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String sortOrder = SongContract.GuestbookTable.COLUMN_TIMESTAMP + " DESC";
 
-        Uri songUri = SongContract.GuestbookTable.buildGuestbookUri();
+        Uri uri = SongContract.GuestbookTable.buildGuestbookUri();
 
         return new CursorLoader(getActivity(),
-                songUri,
+                uri,
                 GUESTBOOK_COLUMNS,
                 null,
                 null,

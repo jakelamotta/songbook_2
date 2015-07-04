@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,7 +92,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                     .build();
 
             URL url = new URL(builtUri.toString());
-
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -118,7 +118,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 return;
             }
             songJsonStr = buffer.toString();
-
             getSongDataFromJson(songJsonStr);
 
             String formattedDateString = Utilities.formatDateString(new Date());
@@ -189,32 +188,25 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         return;
     }
 
-    private void getGuestbookDataFromJson(String guestbookJsonStr) {
-
+    private void getGuestbookDataFromJson(String jsonStr) {
         try {
-            JSONObject songListJson = new JSONObject(guestbookJsonStr);
+            JSONArray entryList = new JSONArray(jsonStr);
 
-            JSONObject entryArray = songListJson.getJSONObject("songs");
-
-            Iterator keys = entryArray.keys();
-
-            Vector<ContentValues> cVVector = new Vector<ContentValues>(entryArray.length());
-            String key;
+            Vector<ContentValues> cVVector = new Vector<ContentValues>(entryList.length());
             JSONObject tempObj;
-            while (keys.hasNext()){
-                key = keys.next().toString();
-                tempObj = new JSONObject(entryArray.getString(key));
-                String id = tempObj.getString("id");
+
+            for (int i=0; i<entryList.length();i++){
+                tempObj = entryList.getJSONObject(i);
                 String name = tempObj.getString("name");
                 String body = tempObj.getString("body");
                 String timestamp_ = tempObj.getString("timestamp");
 
                 ContentValues entryValues = new ContentValues();
-                entryValues.put(SongContract.SongTable.COLUMN_SONG_ID, id);
                 entryValues.put(SongContract.GuestbookTable.COLUMN_POSTER, name);
                 entryValues.put(SongContract.GuestbookTable.COLUMN_ENTRY, body);
                 entryValues.put(SongContract.GuestbookTable.COLUMN_TIMESTAMP, timestamp_);
                 cVVector.add(entryValues);
+
             }
 
             int inserted = 0;
@@ -223,9 +215,8 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             if (cVVector.size() > 0) {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
-                getContext().getContentResolver().bulkInsert(SongContract.GuestbookTable.CONTENT_URI, cvArray);
+                getContext().getContentResolver().bulkInsert(SongContract.GuestbookTable.buildGuestbookUri(), cvArray);
             }
-
         }
         catch (Exception e){
             Log.e(LOG_TAG,e.getMessage());
@@ -314,26 +305,18 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void getSongDataFromJson(String jsonStr)throws JSONException {
-        final String OWM_SONG = "songs";
-
         try {
-            JSONObject songListJson = new JSONObject(jsonStr);
+            JSONArray songList = new JSONArray(jsonStr);
 
-            JSONObject songArray = songListJson.getJSONObject("songs");
-            JSONObject eventArray = songListJson.getJSONObject("events");
-            JSONObject relationshipArray = songListJson.getJSONObject("eventHasSong");
-
-            Iterator keys = songArray.keys();
-
-            Vector<ContentValues> cVVector = new Vector<ContentValues>(songArray.length());
-            String key;
+            Vector<ContentValues> cVVector = new Vector<ContentValues>(songList.length());
             JSONObject tempObj;
-            while (keys.hasNext()){
-                key = keys.next().toString();
-                tempObj = new JSONObject(songArray.getString(key));
+
+            for (int i=0;i<songList.length();i++){
+                tempObj = songList.getJSONObject(i);
                 String id = tempObj.getString("id");
                 String melody = tempObj.getString("melody");
                 String text = tempObj.getString("text");
+                String name = tempObj.getString("name");
                 String category = tempObj.getString("category");
 
                 if (category.isEmpty()){
@@ -342,7 +325,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 ContentValues songValues = new ContentValues();
                 songValues.put(SongContract.SongTable.COLUMN_SONG_ID, id);
-                songValues.put(SongContract.SongTable.COLUMN_SONG_NAME, key);
+                songValues.put(SongContract.SongTable.COLUMN_SONG_NAME, name);
                 songValues.put(SongContract.SongTable.COLUMN_SONG_MELODY, melody);
                 songValues.put(SongContract.SongTable.COLUMN_TEXT, text);
                 songValues.put(SongContract.SongTable.COLUMN_CATEGORY,category);
@@ -359,7 +342,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 getContext().getContentResolver().bulkInsert(SongContract.SongTable.CONTENT_URI, cvArray);
             }
 
-            keys = eventArray.keys();
+            /*keys = eventArray.keys();
             cVVector = new Vector<ContentValues>(eventArray.length());
 
             while (keys.hasNext()){
@@ -411,10 +394,10 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
                 getContext().getContentResolver().bulkInsert(SongContract.SongTable.buildSongWithEventUri(), cvArray);
-            }
+            }*/
 
         }
-        catch (Exception e){
+        catch (JSONException e){
             Log.e(LOG_TAG,e.getMessage());
         }
     }

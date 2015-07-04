@@ -11,7 +11,7 @@ import android.util.Log;
 public class SongDbHelper extends SQLiteOpenHelper {
 
     //Change this value when making db updates
-    private static final int DATABASE_VERSION = 24;
+    private static final int DATABASE_VERSION = 26;
     static final String DATABASE_NAME = "songs.db";
     private static final String LOG_TAG = SongDbHelper.class.getSimpleName();
 

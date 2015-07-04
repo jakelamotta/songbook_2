@@ -204,6 +204,7 @@ public class SongProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                Log.v(LOG_TAG,"Number of values: " + Integer.toString(retCursor.getCount()));
                 break;
             }
             case SONG: {
@@ -273,7 +274,6 @@ public class SongProvider extends ContentProvider {
         switch (match) {
             case GUESTBOOK: {
                 long _id = db.insert(SongContract.GuestbookTable.NAME, null, values);
-                Log.v(LOG_TAG,Long.toString(_id));
 
                 if (_id > 0) {
                     returnUri = SongContract.GuestbookTable.buildGuestbookUri();
@@ -373,6 +373,27 @@ public class SongProvider extends ContentProvider {
         final SQLiteDatabase db = mHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {
+            case GUESTBOOK:{
+                db.beginTransaction();
+                int returnCount = 0;
+
+                try {
+                    for (ContentValues value: values){
+                        Log.v(LOG_TAG,value.toString());
+                        long _id = db.insert(SongContract.GuestbookTable.NAME,null,value);
+
+                        if (_id != -1){
+                            return returnCount++;
+                        }
+                    }
+                }
+                finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri,null);
+                return returnCount;
+
+            }
             case SONG:{
                 db.beginTransaction();
                 int returnCount = 0;
