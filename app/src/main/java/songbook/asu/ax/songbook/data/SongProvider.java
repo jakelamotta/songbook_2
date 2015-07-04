@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import songbook.asu.ax.songbook.Utilities;
+import songbook.asu.ax.songbook.fragments.GuestbookFragment;
 
 
 /**
@@ -379,18 +380,19 @@ public class SongProvider extends ContentProvider {
 
                 try {
                     for (ContentValues value: values){
-                        Log.v(LOG_TAG,value.toString());
                         long _id = db.insert(SongContract.GuestbookTable.NAME,null,value);
 
                         if (_id != -1){
-                            return returnCount++;
+                            returnCount++;
                         }
                     }
+                    db.setTransactionSuccessful();
                 }
                 finally {
                     db.endTransaction();
                 }
                 getContext().getContentResolver().notifyChange(uri,null);
+
                 return returnCount;
 
             }

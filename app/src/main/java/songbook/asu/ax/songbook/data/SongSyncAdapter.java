@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -41,6 +42,8 @@ import songbook.asu.ax.songbook.Utilities;
  */
 public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
 
+    private static final String PREFERENCE_GUESTBOOK_UPDATED = "preference_guestbook_last_synced";
+    private static final String PREFERENCE_UPDATED = "preference_last_synced";
     public final String LOG_TAG = SongSyncAdapter.class.getSimpleName();
     // Interval at which to sync with the weather, in milliseconds.
     // 60 seconds (1 minute) * 60 * 24 = 24 hours
@@ -48,7 +51,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     private static final int SONG_NOTIFICATION_ID = 3004;
-    private static final String PREFERENCE_UPDATED = "preference_last_synced";
     public SongSyncAdapter(Context context, boolean autoInitialize){
         super(context, autoInitialize);
     }
@@ -61,7 +63,9 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         BufferedReader reader = null;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String last_updated = prefs.getString(PREFERENCE_UPDATED,"20010101");
+
+        String last_updated = prefs.getString(PREFERENCE_UPDATED, "20010101");
+        String guestbook_last_updated = prefs.getString(PREFERENCE_GUESTBOOK_UPDATED,"0");
         // Will contain the raw JSON response as a string.
         String songJsonStr = null;
         String format = "json";
@@ -125,8 +129,15 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             /***************************************************************************************
              ************************GET GUESTBOOK ENTRIES******************************************
              *************************************************************************************/
+            String after = "0";
+            if (prefs.contains(PREFERENCE_GUESTBOOK_UPDATED)){
+                after = prefs.getString(PREFERENCE_GUESTBOOK_UPDATED,"0");
+            }
+            else{
+                after = "0";
+            }
 
-            builtUri = Uri.parse(GUESTBOOK_URL).buildUpon()
+            builtUri = Uri.parse(GUESTBOOK_AFTER_DATE_URL + after).buildUpon()
                     .build();
 
             url = new URL(builtUri.toString());
@@ -146,25 +157,30 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
+                //Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                //But it does make debugging a *lot* easier if you print out the completed
+                //buffer for debugging.
                 buffer.append(line + "\n");
             }
+
             if (buffer.length() == 0) {
                 // Stream was empty. No point in parsing.
                 return;
             }
+
             String guestbookJsonStr = buffer.toString();
 
-            getGuestbookDataFromJson(guestbookJsonStr);
+            String newTimeStamp = getGuestbookDataFromJson(guestbookJsonStr);
 
-
-            //Update the shared preference
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(PREFERENCE_UPDATED,formattedDateString);
-            editor.apply();
-
+            if (newTimeStamp != null){
+                int timeStamp = Integer.getInteger(newTimeStamp);
+                newTimeStamp = String.valueOf(timeStamp++);
+                //Update the shared preference
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(PREFERENCE_UPDATED, formattedDateString);
+                editor.putString(PREFERENCE_GUESTBOOK_UPDATED,newTimeStamp);
+                editor.apply();
+            }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
 
@@ -188,7 +204,9 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         return;
     }
 
-    private void getGuestbookDataFromJson(String jsonStr) {
+    private String getGuestbookDataFromJson(String jsonStr) {
+        String newTimeStamp ="0";
+
         try {
             JSONArray entryList = new JSONArray(jsonStr);
 
@@ -201,12 +219,15 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 String body = tempObj.getString("body");
                 String timestamp_ = tempObj.getString("timestamp");
 
+                if (i==0){
+                    newTimeStamp = timestamp_;
+                }
+
                 ContentValues entryValues = new ContentValues();
                 entryValues.put(SongContract.GuestbookTable.COLUMN_POSTER, name);
                 entryValues.put(SongContract.GuestbookTable.COLUMN_ENTRY, body);
                 entryValues.put(SongContract.GuestbookTable.COLUMN_TIMESTAMP, timestamp_);
                 cVVector.add(entryValues);
-
             }
 
             int inserted = 0;
@@ -215,12 +236,16 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             if (cVVector.size() > 0) {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
-                getContext().getContentResolver().bulkInsert(SongContract.GuestbookTable.buildGuestbookUri(), cvArray);
+                //getContext().getContentResolver().insert(SongContract.GuestbookTable.buildGuestbookUri(),cvArray[0]);
+                getContext().getContentResolver().bulkInsert(SongContract.GuestbookTable.CONTENT_URI, cvArray);
             }
         }
+
         catch (Exception e){
             Log.e(LOG_TAG,e.getMessage());
         }
+
+        return newTimeStamp;
     }
 
     public static void syncImmediately(Context context) {
