@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
+    <item android:id="@+id/action_allsongs"
+        android:title="@string/all_songs"
+        android:visible="false"
+        app:showAsAction="always"/>
+
     <item android:id="@+id/action_guestbook"
         android:title="@string/action_guestbook_string"
         android:visible="@bool/showGuestbookMenuItem"

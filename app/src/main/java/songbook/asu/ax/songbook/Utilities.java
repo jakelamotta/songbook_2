@@ -2,6 +2,9 @@ package songbook.asu.ax.songbook;
 
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -63,7 +66,7 @@ public class Utilities {
     }
 
     public static String decorateDateString(String formattedDate){
-        String year = formattedDate.substring(0,4);
+        String year = formattedDate.substring(0, 4);
         String month = formattedDate.substring(4,6);
         String day = formattedDate.substring(6,8);
         String postfix;
@@ -121,6 +124,14 @@ public class Utilities {
 
         String finalString = day + postfix + " " + month + " " + year;
         return finalString;
+    }
+
+    public static String msTimeToDate(String string){
+        long timeInMs = Long.parseLong(string)*1000;
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timeInMs);
+        String dateString = cal.getTime().toString();
+        return dateString;
     }
 }
 

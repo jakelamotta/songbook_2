@@ -83,6 +83,13 @@ public class MainActivity extends SongbookActivity implements Callback {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean result = super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.action_allsongs).setVisible(false);
+        return result;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setContentView(R.layout.activity_main);
@@ -118,6 +125,7 @@ public class MainActivity extends SongbookActivity implements Callback {
             startActivity(intent);
         }
     }
+
 
     @Override
     protected void onStart() {

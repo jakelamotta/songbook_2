@@ -32,10 +32,11 @@
             <TextView
                 android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Kristian Johansson"
                 android:id="@+id/textview_poster"
-                android:paddingRight="25dp"/>
+                android:paddingRight="25dp"
+                android:paddingBottom="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,8 +45,9 @@
                 android:text="20:34 - 18.04.2015"/>
         </LinearLayout>
     </LinearLayout>
+</LinearLayout>
 
-
+    <!--
 
     <LinearLayout
         android:layout_width="0dp"
@@ -66,10 +68,7 @@
                 android:src="@mipmap/delete_btn"
                 android:id="@+id/button_delete"
                 android:background="@color/white_opaque"/>
-
         </LinearLayout>
 
     </LinearLayout>
-
-
-</LinearLayout>
+            -->

@@ -105,7 +105,6 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
-
                 // Nothing to do.
                 return;
             }
@@ -133,9 +132,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             if (prefs.contains(PREFERENCE_GUESTBOOK_UPDATED)){
                 after = prefs.getString(PREFERENCE_GUESTBOOK_UPDATED,"0");
             }
-            else{
-                after = "0";
-            }
+
 
             builtUri = Uri.parse(GUESTBOOK_AFTER_DATE_URL + after).buildUpon()
                     .build();
@@ -169,17 +166,18 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             String guestbookJsonStr = buffer.toString();
-
             String newTimeStamp = getGuestbookDataFromJson(guestbookJsonStr);
-
             if (newTimeStamp != null){
-                int timeStamp = Integer.getInteger(newTimeStamp);
-                newTimeStamp = String.valueOf(timeStamp++);
-                //Update the shared preference
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(PREFERENCE_UPDATED, formattedDateString);
-                editor.putString(PREFERENCE_GUESTBOOK_UPDATED,newTimeStamp);
-                editor.apply();
+
+                int timeStamp = Integer.parseInt(newTimeStamp);
+                if (timeStamp != 0){
+                    newTimeStamp = String.valueOf(timeStamp++);
+                    //Update the shared preference
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(PREFERENCE_UPDATED, formattedDateString);
+                    editor.putString(PREFERENCE_GUESTBOOK_UPDATED,newTimeStamp);
+                    editor.apply();
+                }
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
@@ -220,7 +218,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
                 String timestamp_ = tempObj.getString("timestamp");
 
                 if (i==0){
-                    newTimeStamp = timestamp_;
+                newTimeStamp = timestamp_;
                 }
 
                 ContentValues entryValues = new ContentValues();

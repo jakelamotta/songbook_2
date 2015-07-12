@@ -28,13 +28,11 @@ public class GuestbookEntryAdapter extends CursorAdapter {
         public final TextView entryText;
         public final TextView posterText;
         public final TextView timestampText;
-        public final ImageButton deleteButton;
 
         public ViewHolder(View view) {
             entryText = (TextView) view.findViewById(R.id.textview_entry);
             posterText = (TextView) view.findViewById(R.id.textview_poster);
             timestampText =(TextView) view.findViewById(R.id.textview_timestamp);
-            deleteButton = (ImageButton) view.findViewById(R.id.button_delete);
         }
     }
 
@@ -61,11 +59,11 @@ public class GuestbookEntryAdapter extends CursorAdapter {
         viewHolder.entryText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_ENTRY));
 
         viewHolder.posterText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_POSTER));
-        viewHolder.timestampText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_TIMESTAMP));
+        viewHolder.timestampText.setText(Utilities.msTimeToDate(cursor.getString(GuestbookFragment.COL_GUESTBOOK_TIMESTAMP)));
 
         final String id = getCursor().getString(GuestbookFragment.COL_GUESTBOOK_ID);
 
-        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+        /*viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -84,6 +82,6 @@ public class GuestbookEntryAdapter extends CursorAdapter {
                         .setNegativeButton(R.string.no, null)
                         .show();
             }
-        });
+        });*/
     }
 }

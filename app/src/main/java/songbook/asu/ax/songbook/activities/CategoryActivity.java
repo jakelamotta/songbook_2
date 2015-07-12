@@ -28,7 +28,7 @@ public class CategoryActivity extends SongbookActivity{
 
         CategoryFragment fragment = new CategoryFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_category_container,fragment).commit();
-
+        setTitle("");
         getSupportActionBar().setIcon(R.mipmap.asu_icon);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -42,7 +42,7 @@ public class CategoryActivity extends SongbookActivity{
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
+        menu.findItem(R.id.action_category).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

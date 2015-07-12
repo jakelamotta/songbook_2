@@ -154,6 +154,7 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
         Bundle arguments = getArguments();
         Log.v(LOG_TAG, "in onCreateloader");
 
+
         if (arguments != null){
             Log.v(LOG_TAG, "arguments was not null");
 

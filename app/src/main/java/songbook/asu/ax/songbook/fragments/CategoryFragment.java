@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import songbook.asu.ax.songbook.Callback;
 import songbook.asu.ax.songbook.CategoryAdapter;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
@@ -64,8 +65,14 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(),MainActivity.class);
-                intent.putExtra(SELECTED_CATEGORY,"other");
-                startActivity(intent);
+
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+
+                if (cursor != null) {
+                    String category = cursor.getString(COL_CATEGORY);
+                    intent.putExtra(SELECTED_CATEGORY,category);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -1,8 +1,7 @@
 <resources>
-
     <color name="white_opaque">#FFFFFF</color>
-    <color name="light_blue">#3399FF</color>
-    <color name="asu_blue">#000099</color>
+    <color name="light_blue">#5DBCD2</color>
+    <color name="asu_blue">#11258C</color>
     <color name="grey">#D1D1E0</color>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
