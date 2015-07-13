@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:background="@drawable/sea_no_ships"
+    tools:context="songbook.ax.asu.asu_songbook.SongsByCatFragment"
+    android:orientation="vertical"
+    android:fadingEdge="horizontal"
+    android:tag="cat_fragment">
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view_songs"/>
+</LinearLayout>

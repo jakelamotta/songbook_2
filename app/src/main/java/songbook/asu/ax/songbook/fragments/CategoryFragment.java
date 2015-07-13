@@ -22,7 +22,7 @@ import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.activities.MainActivity;
-import songbook.asu.ax.songbook.activities.SongsFromCategoryActivity;
+import songbook.asu.ax.songbook.activities.SongsByCatActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 
 /**
@@ -64,7 +64,7 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),MainActivity.class);
+                Intent intent = new Intent(getActivity(),SongsByCatActivity.class);
 
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 

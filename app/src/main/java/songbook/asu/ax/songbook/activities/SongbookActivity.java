@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Stack;
+
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
@@ -17,6 +19,7 @@ import songbook.asu.ax.songbook.data.SongSyncAdapter;
  */
 public class SongbookActivity extends ActionBarActivity {
 
+    protected static Stack<Class<?>> parents = new Stack<Class<?>>();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,4 +66,11 @@ public class SongbookActivity extends ActionBarActivity {
         menu.findItem(R.id.action_allsongs).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
 }
