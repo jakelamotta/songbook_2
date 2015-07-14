@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:divider="?@android:attr/dividerHorizontal"
-    tools:context="songbook.ax.asu.asu_songbook.MainActivity">
+    android:divider="?@android:attr/dividerHorizontal">
 
     <fragment
         android:id="@+id/fragment_main"

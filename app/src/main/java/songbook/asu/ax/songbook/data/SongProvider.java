@@ -3,6 +3,7 @@ package songbook.asu.ax.songbook.data;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -166,20 +167,10 @@ public class SongProvider extends ContentProvider {
         // and query the database accordingly.
         Cursor retCursor;
         int match = sUriMatcher.match(uri);
+        Log.v(LOG_TAG," in Song  = " + uri);
         switch (match) {
             case CATEGORY: {
-                Log.v(LOG_TAG,"In category");
-                /*retCursor = mHelper.getReadableDatabase().query(
-                        SongContract.SongTable.NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                )*/
                 retCursor = getUniqueCategory(projection,sortOrder,selection,selectionArgs);
-                Log.v(LOG_TAG,Integer.toString(retCursor.getCount()));
                 break;
             }
             case SONG_WITH_CATEGORY:{
@@ -195,7 +186,6 @@ public class SongProvider extends ContentProvider {
                 break;
             }
             case GUESTBOOK: {
-
                 retCursor = mHelper.getReadableDatabase().query(
                         SongContract.GuestbookTable.NAME,
                         projection,
@@ -205,7 +195,6 @@ public class SongProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
-                Log.v(LOG_TAG,"Number of values: " + Integer.toString(retCursor.getCount()));
                 break;
             }
             case SONG: {

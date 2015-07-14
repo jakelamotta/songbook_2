@@ -31,6 +31,7 @@ import songbook.asu.ax.songbook.data.SongSyncAdapter;
 public class MainFragment extends SongsFragment {
 
     public static final String BUNDLE_KEY = "fragment_bundle";
+    private static final String LOG_TAG = MainFragment.class.getSimpleName();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -78,4 +79,5 @@ public class MainFragment extends SongsFragment {
 
         super.onResume();
     }*/
+
 }

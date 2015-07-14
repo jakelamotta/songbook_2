@@ -1,8 +1,10 @@
 package songbook.asu.ax.songbook.fragments;
 
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,44 +29,75 @@ public class SongsByCatFragment extends SongsFragment {
     }
 
     @Override
+    public void onStart() {
+        Log.v(LOG_TAG,"in onCreateLoader");
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        Log.v(LOG_TAG,"in onCreateLoader");
+        super.onResume();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG,"in onCreateLoader");
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        Log.v(LOG_TAG,"in onCreateLoader");
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in oncreateview");
         rootView = inflater.inflate(R.layout.fragment_main_ref, container, false);
         rootView = super.onCreateView(inflater, container, savedInstanceState);
         Intent intent = getActivity().getIntent();
 
         if (intent != null && intent.hasExtra(CURRENT_CATEGORY)){
             mCategory = intent.getStringExtra(CURRENT_CATEGORY);
+            Log.v(LOG_TAG,"from intent: " + mCategory);
         }
-        else{
+        else if(savedInstanceState.containsKey(CURRENT_CATEGORY)){
+            mCategory = savedInstanceState.getString(CURRENT_CATEGORY);
+            Log.v(LOG_TAG,"from instancestate = " + mCategory);
+        }
+        else if(mCategory == null){
+            Log.v(LOG_TAG, "mCategory == null");
             throw new NullPointerException();
         }
+
         return rootView;
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        Log.v(LOG_TAG,"in on loaderreset");
+        super.onLoaderReset(cursorLoader);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.v(LOG_TAG, "onactivityCreated");
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        Log.v(LOG_TAG,"onCreateLoader");
+        Log.v(LOG_TAG,"in onCreateLoader");
         return super.onCreateLoader(i, bundle);
     }
 
     @Override
     public void filterByCategory(String query) {
-        Log.v(LOG_TAG,"filterByCategory");
+        Log.v(LOG_TAG,"in filterByCat");
         String noCategory = getActivity().getString(R.string.other_category);
 
-        if (query.equals(noCategory)){
-            query = "NULL";
-        }
-
         mSongAdapter.swapCursor(getActivity().getContentResolver().query(
-                        SongContract.SongTable.buildSongUriWithName(),
+                        SongContract.SongTable.buildSongUri(),
                         SONG_COLUMNS,
                         SongContract.SongTable.COLUMN_CATEGORY + " = ?",
                         new String[]{query},
@@ -74,21 +107,8 @@ public class SongsByCatFragment extends SongsFragment {
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Log.v(LOG_TAG,"on Loadfinished");
+        Log.v(LOG_TAG,"in onLoadFinished");
         super.onLoadFinished(cursorLoader, cursor);
         filterByCategory(mCategory);
-    }
-
-    @Override
-    public void onStart() {
-        Log.v(LOG_TAG,"on Start");
-        super.onStart();
-
-    }
-
-    @Override
-    public void onResume() {
-        Log.v(LOG_TAG,"on resume");
-        super.onResume();
     }
 }

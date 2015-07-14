@@ -40,14 +40,13 @@ public class SongsActivity extends SongbookActivity implements Callback {
     protected void checkWidth(Bundle savedInstanceState) {
         if (findViewById(R.id.song_detail_container) != null){
             mTwoPane = true;
-            Log.v(LOG_TAG,this.getClass().getSimpleName() + ": found detail container");
+
             if (savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.song_detail_container, new DetailFragment()).commit();
             }
         }
         else{
-            Log.v(LOG_TAG,this.getClass().getSimpleName() + ": did not find detail container");
             mTwoPane = false;
         }
     }
@@ -75,9 +74,7 @@ public class SongsActivity extends SongbookActivity implements Callback {
 
     @Override
     public void onItemSelected(Uri contentUri,String name, @Nullable String category){
-
         if (mTwoPane){
-            Log.v(LOG_TAG,"in mTwoPane");
             Bundle args = new Bundle();
             args.putParcelable(DetailFragment.DETAIL_URI,contentUri);
             args.putString(SongsFragment.SONG_NAME,name);
@@ -89,11 +86,11 @@ public class SongsActivity extends SongbookActivity implements Callback {
                     DETAILFRAGMENT_TAG).commit();
         }
         else if(!mTwoPane){
-            Log.v(LOG_TAG,"in mOnePane");
             Intent intent = new Intent(this,DetailActivity.class).setData(contentUri);
 
             if (category != null){
                 intent.putExtra(CategoryFragment.SELECTED_CATEGORY,category);
+
             }
 
             intent.putExtra(SongsFragment.SONG_NAME,name);

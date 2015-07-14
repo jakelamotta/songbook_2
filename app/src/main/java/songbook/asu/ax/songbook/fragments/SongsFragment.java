@@ -79,7 +79,7 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
                 if (cursor != null) {
                     String name = cursor.getString(COL_SONG_NAME);
 
-                    Callback mainActivity = (Callback) getActivity();
+                    Callback mai    nActivity = (Callback) getActivity();
                     mainActivity.onItemSelected(SongContract.SongTable.buildSongUriWithName(), name, mCategory);
                 }
 
@@ -97,15 +97,6 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
             mListView.smoothScrollToPosition(mPosition);
             mListView.setItemChecked(mPosition,true);
         }
-        /*if (mCategoryMode && mCurrentCategory != null){
-            this.filterByCategory(mCurrentCategory);
-        }
-        Bundle bundle = getArguments();
-        if (bundle == null){
-            bundle = new Bundle();
-        }
-        bundle.putBoolean(CATEGORY_MODE,mCategoryMode);
-        bundle.putString(CURRENT_CATEGORY,mCurrentCategory);*/
     }
 
     @Override
