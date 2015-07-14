@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import songbook.asu.ax.songbook.Callback;
 import songbook.asu.ax.songbook.CategoryAdapter;
+import songbook.asu.ax.songbook.Loaders;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
@@ -31,7 +32,6 @@ import songbook.asu.ax.songbook.data.SongContract;
 public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor> {
 
     private static final String LOG_TAG = CategoryFragment.class.getSimpleName();
-    private static final int SONG_LOADER = 0;
     private CategoryAdapter mCategoryAdapter;
     public static final String SELECTED_CATEGORY = "selected_category";
 
@@ -81,7 +81,7 @@ public class CategoryFragment extends Fragment implements LoaderCallbacks<Cursor
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(SONG_LOADER, null, this);
+        getLoaderManager().initLoader(Loaders.CATEGORY_LOADER.ordinal(), null, this);
         super.onActivityCreated(savedInstanceState);
     }
 

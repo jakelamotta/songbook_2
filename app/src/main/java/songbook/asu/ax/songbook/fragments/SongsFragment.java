@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.Iterator;
+
 import songbook.asu.ax.songbook.Callback;
+import songbook.asu.ax.songbook.Loaders;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
 import songbook.asu.ax.songbook.activities.CategoryActivity;
+import songbook.asu.ax.songbook.activities.SongbookActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 
 /**
@@ -26,7 +30,6 @@ import songbook.asu.ax.songbook.data.SongContract;
  */
 public class SongsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,SongFilter {
 
-    protected static final int SONG_LOADER = 0;
     protected int mPosition = -1;
     protected static final String SELECTED_POSITION = "selected_position";
     protected SongAdapter mSongAdapter;
@@ -79,7 +82,7 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
                 if (cursor != null) {
                     String name = cursor.getString(COL_SONG_NAME);
 
-                    Callback mai    nActivity = (Callback) getActivity();
+                    Callback mainActivity = (Callback) getActivity();
                     mainActivity.onItemSelected(SongContract.SongTable.buildSongUriWithName(), name, mCategory);
                 }
 
@@ -120,7 +123,16 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void filterByName(String query) {
-        {
+        if (mCategory != null) {
+            mSongAdapter.swapCursor(getActivity().getContentResolver().query(
+                            SongContract.SongTable.buildSongUriWithName(),
+                            SONG_COLUMNS,
+                            SongContract.SongTable.COLUMN_CATEGORY + " = ? AND " + SongContract.SongTable.COLUMN_SONG_NAME + " LIKE ?",
+                            new String[]{mCategory,"%" + query + "%"},
+                            null)
+            );
+        }
+        else{
             mSongAdapter.swapCursor(getActivity().getContentResolver().query(
                             SongContract.SongTable.buildSongUriWithName(),
                             SONG_COLUMNS,
@@ -129,6 +141,8 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
                             null)
             );
         }
+
+
     }
 
     @Override
@@ -153,7 +167,6 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(SONG_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 

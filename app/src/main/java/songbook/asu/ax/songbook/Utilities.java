@@ -30,7 +30,8 @@ public class Utilities {
     public static void main(String[] argvs){
         //java.util.Date date = new java.util.Date();
         //System.out.println(decorateDateString(formatDateString(date)));
-        System.out.println(getTimeStamp());
+        Calendar cal = Calendar.getInstance();
+        System.out.println(Utilities.msTimeToDate(Long.toString(cal.getTimeInMillis())));
     }
 
     public static String formatDateString(java.util.Date date){
@@ -67,8 +68,8 @@ public class Utilities {
 
     public static String decorateDateString(String formattedDate){
         String year = formattedDate.substring(0, 4);
-        String month = formattedDate.substring(4,6);
-        String day = formattedDate.substring(6,8);
+        String month = formattedDate.substring(4, 6);
+        String day = formattedDate.substring(6, 8);
         String postfix;
 
         switch (month){
@@ -130,8 +131,76 @@ public class Utilities {
         long timeInMs = Long.parseLong(string)*1000;
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timeInMs);
-        String dateString = cal.getTime().toString();
-        return dateString;
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH); // Note: zero based!
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+
+        String yearString = Integer.toString(year);
+        String monthString = Utilities.getMonthFromInt(month);
+        String dayString = Integer.toString(day);
+        String hourString = Utilities.padString(Integer.toString(hour), 2, "0", "");
+        String minString = Utilities.padString(Integer.toString(minute),2,"0","");
+
+        return hourString+":"+minString+" "+dayString+" "+monthString+" "+yearString;
+    }
+
+    private static String padString(String toPad, int length, String sign, String flag){
+        while (toPad.length() < length){
+            if (flag == "after"){
+                toPad = toPad + sign;
+            }
+            else{
+                toPad = sign + toPad;
+            }
+        }
+
+        return toPad;
+    }
+
+    private static String getMonthFromInt(int i){
+        String month = "";
+        switch (i){
+            case 0:
+                month = JANUARY;
+                break;
+            case 1:
+                month = FEBRUARY;
+                break;
+            case 2:
+                month = MARCH;
+                break;
+            case 3:
+                month = APRIL;
+                break;
+            case 4:
+                month = MAY;
+                break;
+            case 5:
+                month = JUNE;
+                break;
+            case 6:
+                month = JULY;
+                break;
+            case 7:
+                month = AUGUST;
+                break;
+            case 8:
+                month = SEPTEMBER;
+                break;
+            case 9:
+                month = OCTOBER;
+                break;
+            case 10:
+                month = NOVEMBER;
+                break;
+            case 11:
+                month = DECEMBER;
+                break;
+        }
+        return month;
     }
 }
 

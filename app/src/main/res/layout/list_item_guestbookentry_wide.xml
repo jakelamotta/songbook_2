@@ -37,11 +37,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <TextView
-                    android:paddingLeft="2dp"
+                    android:paddingLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Kristian Johansson"
                     android:id="@+id/textview_poster"
+                    android:layout_marginRight="5dp"
                     android:paddingBottom="2dp"/>
 
             </LinearLayout>
@@ -49,15 +50,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:gravity="right">
-
                 <TextView
                     android:gravity="right"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/textview_timestamp"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="5dp"
                     android:text="20:34 - 18.04.2015" />
 
 
@@ -65,29 +66,3 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-
-    <!--
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/delete_btn"
-                android:id="@+id/button_delete"
-                android:background="@color/white_opaque"/>
-        </LinearLayout>
-
-    </LinearLayout>
-            -->

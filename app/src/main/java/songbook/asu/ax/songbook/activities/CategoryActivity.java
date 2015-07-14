@@ -35,14 +35,9 @@ public class CategoryActivity extends SongbookActivity{
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_category).setVisible(false);
+        menu.findItem(R.id.search_menu_item).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import songbook.asu.ax.songbook.Callback;
+import songbook.asu.ax.songbook.Loaders;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongAdapter;
 import songbook.asu.ax.songbook.SongFilter;
@@ -32,9 +33,11 @@ public class MainFragment extends SongsFragment {
 
     public static final String BUNDLE_KEY = "fragment_bundle";
     private static final String LOG_TAG = MainFragment.class.getSimpleName();
+    private static final int SONG_LOADER = 0;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(Loaders.SONG_LOADER.ordinal(), null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -45,39 +48,7 @@ public class MainFragment extends SongsFragment {
     }
 
     @Override
-    public void onStart() {
-        SongSyncAdapter.syncImmediately(getActivity());
-        super.onStart();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
-
-    /*@Override
-    public void onStop() {
-        Bundle bundle = getArguments();
-        if (bundle == null){
-            bundle = new Bundle();
-        }
-        bundle.putBoolean(CATEGORY_MODE,mCategoryMode);
-        bundle.putString(CURRENT_CATEGORY,mCurrentCategory);
-        super.onStop();
-    }
-
-    @Override
-    public void onResume() {
-        Bundle bundle = getArguments();
-
-        if (bundle != null){
-            if (bundle.containsKey(CATEGORY_MODE)){
-                this.mCategoryMode = bundle.getBoolean(CATEGORY_MODE);
-                this.mCurrentCategory = bundle.getString(CURRENT_CATEGORY);
-            }
-        }
-
-        super.onResume();
-    }*/
-
 }

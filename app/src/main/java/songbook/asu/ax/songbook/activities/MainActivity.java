@@ -32,6 +32,7 @@ public class MainActivity extends SongsActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        updateSongbook();
         setContentView(R.layout.activity_main);
         checkWidth(savedInstanceState);
         if(!parents.empty()){

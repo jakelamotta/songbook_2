@@ -34,12 +34,12 @@ public class SongbookActivity extends ActionBarActivity {
                 Intent intent = new Intent(this,CategoryActivity.class);
                 startActivity(intent);
                 break;
-            }
+            }/*
             case R.id.action_event:{
                 Intent intent = new Intent(this,EventActivity.class);
                 startActivity(intent);
                 break;
-            }
+            }*/
             case R.id.action_add_song:{
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_to_api)));
                 startActivity(myIntent);

@@ -174,6 +174,16 @@ public class SongProvider extends ContentProvider {
                 break;
             }
             case SONG_WITH_CATEGORY:{
+                /*retCursor = mHelper.getReadableDatabase().query(
+                        SongContract.SongTable.NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;*/
                 retCursor = mHelper.getReadableDatabase().query(
                         SongContract.SongTable.NAME,
                         projection,

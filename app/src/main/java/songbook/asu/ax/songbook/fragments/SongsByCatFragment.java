@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import songbook.asu.ax.songbook.Loaders;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.activities.CategoryActivity;
 import songbook.asu.ax.songbook.data.SongContract;
@@ -29,33 +30,8 @@ public class SongsByCatFragment extends SongsFragment {
     }
 
     @Override
-    public void onStart() {
-        Log.v(LOG_TAG,"in onCreateLoader");
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        Log.v(LOG_TAG,"in onCreateLoader");
-        super.onResume();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in onCreateLoader");
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"in onCreateLoader");
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_main_ref, container, false);
-        rootView = super.onCreateView(inflater, container, savedInstanceState);
         Intent intent = getActivity().getIntent();
 
         if (intent != null && intent.hasExtra(CURRENT_CATEGORY)){
@@ -71,33 +47,28 @@ public class SongsByCatFragment extends SongsFragment {
             throw new NullPointerException();
         }
 
-        return rootView;
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        Log.v(LOG_TAG,"in on loaderreset");
-        super.onLoaderReset(cursorLoader);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(Loaders.SONG_BY_CAT_LOADER.ordinal(), null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        Log.v(LOG_TAG,"in onCreateLoader");
+        Log.v(LOG_TAG, "in onCreateLoader");
         return super.onCreateLoader(i, bundle);
     }
 
     @Override
     public void filterByCategory(String query) {
-        Log.v(LOG_TAG,"in filterByCat");
+        Log.v(LOG_TAG, "in filterByCat");
         String noCategory = getActivity().getString(R.string.other_category);
 
         mSongAdapter.swapCursor(getActivity().getContentResolver().query(
-                        SongContract.SongTable.buildSongUri(),
+                        SongContract.SongTable.buildSongWithCategoryUri(),
                         SONG_COLUMNS,
                         SongContract.SongTable.COLUMN_CATEGORY + " = ?",
                         new String[]{query},
@@ -107,8 +78,13 @@ public class SongsByCatFragment extends SongsFragment {
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Log.v(LOG_TAG,"in onLoadFinished");
         super.onLoadFinished(cursorLoader, cursor);
         filterByCategory(mCategory);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        super.onLoaderReset(cursorLoader);
+        mSongAdapter.swapCursor(null);
     }
 }

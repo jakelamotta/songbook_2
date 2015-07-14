@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:divider="?@android:attr/dividerHorizontal">
+    android:divider="?@android:attr/dividerHorizontal"
+    tools:context="songbook.asu.ax.songbook.activities.SongsByCatActivity">
 
     <fragment
         android:id="@+id/fragment_cat"

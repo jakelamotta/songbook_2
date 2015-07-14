@@ -23,7 +23,6 @@ public class DetailActivity extends SongbookActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
@@ -50,6 +49,7 @@ public class DetailActivity extends SongbookActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -71,5 +71,11 @@ public class DetailActivity extends SongbookActivity{
         startActivity(parentActivityIntent);
         finish();
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.search_menu_item).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
     }
 }

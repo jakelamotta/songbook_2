@@ -58,8 +58,8 @@ public class GuestbookEntryAdapter extends CursorAdapter {
 
         viewHolder.entryText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_ENTRY));
 
-        viewHolder.posterText.setText(cursor.getString(GuestbookFragment.COL_GUESTBOOK_POSTER));
-        viewHolder.timestampText.setText(Utilities.msTimeToDate(cursor.getString(GuestbookFragment.COL_GUESTBOOK_TIMESTAMP)));
+        viewHolder.posterText.setText(context.getString(R.string.poster,cursor.getString(GuestbookFragment.COL_GUESTBOOK_POSTER)));
+        viewHolder.timestampText.setText(context.getString(R.string.date,Utilities.msTimeToDate(cursor.getString(GuestbookFragment.COL_GUESTBOOK_TIMESTAMP))));
 
         final String id = getCursor().getString(GuestbookFragment.COL_GUESTBOOK_ID);
 

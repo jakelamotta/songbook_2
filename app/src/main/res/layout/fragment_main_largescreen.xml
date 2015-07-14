@@ -6,7 +6,6 @@
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
     android:background="@drawable/sea_no_ships"
-    tools:context="songbook.ax.asu.asu_songbook.MainFragment"
     android:orientation="vertical"
     android:fadingEdge="horizontal"
     android:tag="main_fragment">

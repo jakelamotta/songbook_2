@@ -43,6 +43,7 @@ public class GuestbookActivity extends SongbookActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_guestbook).setVisible(false);
+        menu.findItem(R.id.search_menu_item).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

@@ -43,7 +43,7 @@
     <!--Messages-->
     <string name="server_down">Servern är inte tillgänglig, sångboken är inte uppdaterad</string>
     <string name="no_events">Inga evenemang idag</string>
-    <string name="no_current_song">Not singing any song right now</string>
+    <string name="no_current_song">Ingen sång sjungs just nu</string>
     <string name="no_songs">Ingen sånglista för detta evenemang</string>
     <string name="post">Skriv ett nytt inlägg</string>
 

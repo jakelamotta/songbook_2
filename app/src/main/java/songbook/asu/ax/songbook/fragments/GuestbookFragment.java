@@ -39,6 +39,7 @@ import java.util.Random;
 
 import songbook.asu.ax.songbook.GuestbookEntryAdapter;
 import songbook.asu.ax.songbook.GuestbookFormDialog;
+import songbook.asu.ax.songbook.Loaders;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.Utilities;
 import songbook.asu.ax.songbook.activities.MainActivity;
@@ -51,7 +52,6 @@ import songbook.asu.ax.songbook.data.SongSyncAdapter;
 public class GuestbookFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = GuestbookFragment.class.getSimpleName();
-    private static final int ENTRY_LOADER = 0;
     private static final String ENTRY_POST_URL = "http://songbook.asu.ax/api/message";
 
     private static GuestbookEntryAdapter mGuestbookEntryAdapter;
@@ -130,7 +130,7 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        getLoaderManager().initLoader(ENTRY_LOADER,null,this);
+        getLoaderManager().initLoader(Loaders.GUESTBOOK_LOADER.ordinal(),null,this);
         super.onActivityCreated(savedInstanceState);
     }
 
