@@ -106,7 +106,7 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
             mCursor.moveToFirst();
 
             mEventNameTextView.setText(mCursor.getString(COL_EVENT_NAME));
-            mEventDateTextView.setText(Utilities.decorateDateString(mCursor.getString(COL_EVENT_DATE)));
+            mEventDateTextView.setText(Utilities.msTimeToDate(Long.parseLong(mCursor.getString(COL_EVENT_DATE)),getActivity()));
         } else {
             mEventNameTextView.setText(getActivity().getString(R.string.no_events));
         }
@@ -138,7 +138,7 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
                         eventUri,
                         EVENT_COLUMNS,
                         SELECTION_STRING,
-                        new String[]{Utilities.formatDateString(new Date())},
+                        new String[]{"wrong string"},
                         sortOrder);
 
                 return cursorLoader;
@@ -156,16 +156,6 @@ public class EventFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void filterByCategory(String query) {
-
-    }
-
-    @Override
-    public void setCategoryMode(boolean b) {
-
-    }
-
-    @Override
-    public void setCurrentCategory(String stringExtra) {
 
     }
 

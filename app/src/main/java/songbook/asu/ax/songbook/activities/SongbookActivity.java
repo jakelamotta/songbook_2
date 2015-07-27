@@ -1,9 +1,12 @@
 package songbook.asu.ax.songbook.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,8 @@ public class SongbookActivity extends ActionBarActivity {
 
         switch(item.getItemId()){
             case R.id.action_guestbook:{
+                updateGuestbook(this);
+
                 Intent intent = new Intent(this,GuestbookActivity.class);
                 startActivity(intent);
                 break;
@@ -73,4 +78,13 @@ public class SongbookActivity extends ActionBarActivity {
         return true;
     }
 
+    public static void updateGuestbook(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(GuestbookActivity.SYNC_GUESTBOOK_ONLY,true);
+        editor.apply();
+
+        SongSyncAdapter.syncImmediately(context);
+    }
 }

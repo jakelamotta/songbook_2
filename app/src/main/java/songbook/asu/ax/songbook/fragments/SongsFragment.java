@@ -123,13 +123,15 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void filterByName(String query) {
+        String sortOrder = SongContract.SongTable.COLUMN_SONG_NAME + " ASC";
+
         if (mCategory != null) {
             mSongAdapter.swapCursor(getActivity().getContentResolver().query(
                             SongContract.SongTable.buildSongUriWithName(),
                             SONG_COLUMNS,
                             SongContract.SongTable.COLUMN_CATEGORY + " = ? AND " + SongContract.SongTable.COLUMN_SONG_NAME + " LIKE ?",
                             new String[]{mCategory,"%" + query + "%"},
-                            null)
+                            sortOrder)
             );
         }
         else{
@@ -138,7 +140,7 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
                             SONG_COLUMNS,
                             SongContract.SongTable.COLUMN_SONG_NAME + " LIKE ?",
                             new String[]{"%" + query + "%"},
-                            null)
+                            sortOrder)
             );
         }
 
@@ -152,16 +154,6 @@ public class SongsFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void filterByCategory(String query) {
-
-    }
-
-    @Override
-    public void setCategoryMode(boolean b) {
-
-    }
-
-    @Override
-    public void setCurrentCategory(String stringExtra) {
 
     }
 

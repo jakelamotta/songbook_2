@@ -58,31 +58,8 @@ public class SongsByCatActivity extends SongsActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if(selectedCategory != null){
-            Log.v(LOG_TAG,"selectedcategory not null");
             outState.putString(CategoryFragment.SELECTED_CATEGORY,selectedCategory);
         }
-        else{
-            Log.v(LOG_TAG,"selectedCategory app null");
-        }
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onResumeFragments() {
-        Log.v(LOG_TAG,"onResumeFragments");
-        super.onResumeFragments();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.v(LOG_TAG,"onResumeResumes");
-        super.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-
-        Log.v(LOG_TAG,"onResumeStart");
-        super.onStart();
     }
 }

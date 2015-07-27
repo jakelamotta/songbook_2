@@ -143,7 +143,7 @@ public class SongProvider extends ContentProvider {
         String selection;
 
         selection = sEventDateSelection;
-        selectionArgs = new String[]{Utilities.formatDateString(new Date())};
+        selectionArgs = new String[]{"this is a placeholder, incorrect"};
 
         return queryBuilder.query(mHelper.getReadableDatabase(),
                 projection,

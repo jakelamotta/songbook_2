@@ -55,7 +55,6 @@ public class GuestbookFragment extends Fragment implements LoaderManager.LoaderC
     private static final String ENTRY_POST_URL = "http://songbook.asu.ax/api/message";
 
     private static GuestbookEntryAdapter mGuestbookEntryAdapter;
-    private Cursor mCursor;
 
     private static final String[] GUESTBOOK_COLUMNS = {
             SongContract.GuestbookTable.NAME + "." + SongContract.GuestbookTable._ID,

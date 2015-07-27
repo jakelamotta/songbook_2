@@ -55,7 +55,7 @@ public class EventAdapter extends CursorAdapter{
         String name = cursor.getString(EventCalendarFragment.COL_EVENT_NAME);
         viewHolder.nameView.setText(name);
 
-        String dateString = Utilities.decorateDateString(cursor.getString(EventCalendarFragment.COL_EVENT_DATE));
+        String dateString = Utilities.msTimeToDate(Long.parseLong(cursor.getString(EventCalendarFragment.COL_EVENT_DATE)),context);
         viewHolder.dateView.setText(String.format(context.getString(R.string.melody),dateString));
     }
 }

@@ -109,7 +109,7 @@ public class EventCalendarFragment extends Fragment implements LoaderManager.Loa
         String sortOrder = SongContract.EventTable.COLUMN_EVENT_NAME + " ASC";
 
         Uri eventUri = SongContract.EventTable.buildEventUri("");
-        String[] dateList = new String[]{Utilities.formatDateString(new Date())};
+        String[] dateList = new String[]{"wrong string"};
 
         switch (id){
             case EVENT_TODAY_LOADER:

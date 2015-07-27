@@ -3,8 +3,10 @@ package songbook.asu.ax.songbook.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import songbook.asu.ax.songbook.Callback;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongFilter;
+import songbook.asu.ax.songbook.Utilities;
 import songbook.asu.ax.songbook.data.SongSyncAdapter;
 import songbook.asu.ax.songbook.fragments.CategoryFragment;
 import songbook.asu.ax.songbook.fragments.DetailFragment;
@@ -24,6 +27,7 @@ import songbook.asu.ax.songbook.fragments.MainFragment;
 public class MainActivity extends SongsActivity{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static final String LAST_SYNCED = MainActivity.class.getSimpleName()+"_last_synced";
 
     private void updateSongbook(){
         SongSyncAdapter.syncImmediately(this);

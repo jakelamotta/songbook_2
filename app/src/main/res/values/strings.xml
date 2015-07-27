@@ -46,6 +46,20 @@
     <string name="no_current_song">Ingen sång sjungs just nu</string>
     <string name="no_songs">Ingen sånglista för detta evenemang</string>
     <string name="post">Skriv ett nytt inlägg</string>
+    <string name="make_private">Privat inlägg</string>
+    <string name="no_wifi">Kunde inte kontakta servern, sångboken är inte uppdaterad</string>
+    <string name="january">january</string>
+    <string name="february">februari</string>
+    <string name="march">mars</string>
+    <string name="april">april</string>
+    <string name="may">maj</string>
+    <string name="june">juni</string>
+    <string name="july">juli</string>
+    <string name="august">augusti</string>
+    <string name="september">september</string>
+    <string name="october">oktober</string>
+    <string name="november">november</string>
+    <string name="december">december</string>
 
 
     <bool name="showEventMenuItem">true</bool>

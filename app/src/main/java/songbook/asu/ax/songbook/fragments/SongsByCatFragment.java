@@ -24,7 +24,6 @@ public class SongsByCatFragment extends SongsFragment {
     private static final String CURRENT_CATEGORY = CategoryFragment.SELECTED_CATEGORY;
     private static final String LOG_TAG = SongsByCatFragment.class.getSimpleName();
 
-    @Override
     public void setCurrentCategory(String stringExtra) {
         this.mCategory = stringExtra;
     }
@@ -36,15 +35,12 @@ public class SongsByCatFragment extends SongsFragment {
 
         if (intent != null && intent.hasExtra(CURRENT_CATEGORY)){
             mCategory = intent.getStringExtra(CURRENT_CATEGORY);
-            Log.v(LOG_TAG,"from intent: " + mCategory);
         }
         else if(savedInstanceState.containsKey(CURRENT_CATEGORY)){
             mCategory = savedInstanceState.getString(CURRENT_CATEGORY);
-            Log.v(LOG_TAG,"from instancestate = " + mCategory);
         }
         else if(mCategory == null){
             Log.v(LOG_TAG, "mCategory == null");
-            throw new NullPointerException();
         }
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -58,15 +54,11 @@ public class SongsByCatFragment extends SongsFragment {
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        Log.v(LOG_TAG, "in onCreateLoader");
         return super.onCreateLoader(i, bundle);
     }
 
     @Override
     public void filterByCategory(String query) {
-        Log.v(LOG_TAG, "in filterByCat");
-        String noCategory = getActivity().getString(R.string.other_category);
-
         mSongAdapter.swapCursor(getActivity().getContentResolver().query(
                         SongContract.SongTable.buildSongWithCategoryUri(),
                         SONG_COLUMNS,
