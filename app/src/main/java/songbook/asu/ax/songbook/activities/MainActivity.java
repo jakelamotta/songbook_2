@@ -27,6 +27,8 @@ public class MainActivity extends SongbookActivity implements Callback {
     private static final String DETAILFRAGMENT_TAG = "detail_fragment";
     private boolean mTwoPane;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class MainActivity extends SongbookActivity implements Callback {
                 filter.setCurrentCategory(intent.getStringExtra(CategoryFragment.SELECTED_CATEGORY));
             }
         }
+
 
         checkWidth(savedInstanceState);
         //updateSongbook();

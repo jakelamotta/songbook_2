@@ -68,8 +68,7 @@ public class SongDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SongContract.GuestbookTable.NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SongContract.SongTable.NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SongContract.EventHasSongTable.NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + SongContract.EventTable.NAME);
-        onCreate(db);
+
     }
 }
 

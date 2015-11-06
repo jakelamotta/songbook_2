@@ -400,10 +400,12 @@ public class SongProvider extends ContentProvider {
                 db.beginTransaction();
                 int returnCount = 0;
                 try {
+                    String[] tempArray = new String[1];
+                    tempArray[0] = "%";
+                    db.delete(SongContract.SongTable.NAME,"song_name like ?",tempArray);
+
                     for (ContentValues value : values) {
-                        String[] tempArray = new String[1];
-                        tempArray[0] = value.getAsString("song_name");
-                        db.delete(SongContract.SongTable.NAME,"song_name = ?",tempArray);
+
                         long _id = db.insert(SongContract.SongTable.NAME, null, value);
 
                         if (_id != -1) {
@@ -414,6 +416,21 @@ public class SongProvider extends ContentProvider {
                 } finally {
                     db.endTransaction();
                 }
+                /*try {
+                    for (ContentValues value : values) {
+                        String[] tempArray = new String[1];
+                        tempArray[0] = value.getAsString("song_name");
+                        db.delete(SongContract.SongTable.NAME,"song_name like ?",tempArray);
+                        long _id = db.insert(SongContract.SongTable.NAME, null, value);
+
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }*/
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
             }
