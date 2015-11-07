@@ -152,8 +152,12 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Bundle arguments = getArguments();
+        Log.v(LOG_TAG, "in onCreateloader");
+
 
         if (arguments != null){
+            Log.v(LOG_TAG, "arguments was not null");
+
             if (arguments.containsKey(CATEGORY_MODE)){
                 this.mCategoryMode = arguments.getBoolean(CATEGORY_MODE);
                 this.mCurrentCategory = arguments.getString(CURRENT_CATEGORY);
@@ -238,11 +242,13 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
 
     @Override
     public void onDestroy() {
+        Log.v(LOG_TAG,"on destroy");
         super.onDestroy();
     }
 
     @Override
     public void onDestroyView() {
+        Log.v(LOG_TAG,"on destroy view");
         super.onDestroyView();
     }
 
@@ -269,5 +275,10 @@ public class MainFragment extends Fragment implements LoaderCallbacks<Cursor>,So
         }
 
         super.onResume();
+    }
+
+    @Override
+    public void onDetach() {
+        Log.v(LOG_TAG, "detach");
     }
 }
