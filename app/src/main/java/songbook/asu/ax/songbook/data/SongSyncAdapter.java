@@ -17,6 +17,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +38,8 @@ import java.util.Vector;
 
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.Utilities;
+import songbook.asu.ax.songbook.activities.GuestbookActivity;
+import songbook.asu.ax.songbook.activities.MainActivity;
 
 /**
  * Created by EIS i7 Gamer on 2015-02-26.
@@ -44,16 +48,18 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String PREFERENCE_GUESTBOOK_UPDATED = "preference_guestbook_last_synced";
     private static final String PREFERENCE_UPDATED = "preference_last_synced";
+    private static final long SONG_SYNC_INTERVAL = 60 * 1 * 1000;
     public final String LOG_TAG = SongSyncAdapter.class.getSimpleName();
     // Interval at which to sync with the weather, in milliseconds.
     // 60 seconds (1 minute) * 60 * 24 = 24 hours
-    public static final int SYNC_INTERVAL = 60 * 60 * 24;
+    public static final int SYNC_INTERVAL = 60 * 60 * 24*1000;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
-    private static final int SONG_NOTIFICATION_ID = 3004;
     public SongSyncAdapter(Context context, boolean autoInitialize){
         super(context, autoInitialize);
     }
+
+
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
@@ -65,15 +71,8 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         String last_updated = prefs.getString(PREFERENCE_UPDATED, "20010101");
-        String guestbook_last_updated = prefs.getString(PREFERENCE_GUESTBOOK_UPDATED,"0");
-        // Will contain the raw JSON response as a string.
         String songJsonStr = null;
-        String format = "json";
-        String units = "metric";
-        int numDays = 14;
-        // Construct the URL for the OpenWeatherMap query
-        // Possible parameters are avaiable at OWM's forecast API page, at
-        // http://openweathermap.org/API#forecast
+
         final String SONGBOOK_BASE_URL = "http://songbook.asu.ax/api/";
         final String SONG_URL = SONGBOOK_BASE_URL + "song";
         final String EVENT_URL = SONGBOOK_BASE_URL + "event";
@@ -84,100 +83,113 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
         final String EVENT_PARAM = "event";
 
         Uri builtUri;
+        URL url;
+        InputStream inputStream;
+        StringBuffer buffer;
+        String line;
+        String formattedDateString = "";
 
         try {
-            String timestamp;
-            String event;
+            if (!prefs.getBoolean(GuestbookActivity.SYNC_GUESTBOOK_ONLY,false) && Utilities.getTimeStamp()-prefs.
+                    getLong(MainActivity.LAST_SYNCED,0) > SONG_SYNC_INTERVAL) {
+                builtUri = Uri.parse(SONG_URL).buildUpon()
+                        .appendQueryParameter(ID_PARAM, "0")
+                        .appendQueryParameter(TIME_PARAM, last_updated)
+                        .appendQueryParameter(EVENT_PARAM, "")
+                        .build();
 
-            builtUri = Uri.parse(SONG_URL).buildUpon()
-                    .appendQueryParameter(ID_PARAM,"0")
-                    .appendQueryParameter(TIME_PARAM, last_updated)
-                    .appendQueryParameter(EVENT_PARAM,Utilities.formatDateString(new Date()))
-                    .build();
+                url = new URL(builtUri.toString());
+                // Create the request to OpenWeatherMap, and open the connection
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
 
-            URL url = new URL(builtUri.toString());
-            // Create the request to OpenWeatherMap, and open the connection
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
+                // Read the input stream into a String
+                inputStream = urlConnection.getInputStream();
+                buffer = new StringBuffer();
+                if (inputStream == null) {
+                    // Nothing to do.
+                    return;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            // Read the input stream into a String
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                // Nothing to do.
-                return;
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+                if (buffer.length() == 0) {
+                    // Stream was empty. No point in parsing.
+                    return;
+                }
+                songJsonStr = buffer.toString();
+                getSongDataFromJson(songJsonStr);
+
+                //formattedDateString = Utilities.formatDateString(new Date());
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong(MainActivity.LAST_SYNCED, Utilities.getTimeStamp());
+                editor.apply();
             }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
-                buffer.append(line + "\n");
-            }
-            if (buffer.length() == 0) {
-                // Stream was empty. No point in parsing.
-                return;
-            }
-            songJsonStr = buffer.toString();
-            getSongDataFromJson(songJsonStr);
-
-            String formattedDateString = Utilities.formatDateString(new Date());
-
             /***************************************************************************************
              ************************GET GUESTBOOK ENTRIES******************************************
              *************************************************************************************/
-            String after = "0";
-            if (prefs.contains(PREFERENCE_GUESTBOOK_UPDATED)){
-                after = prefs.getString(PREFERENCE_GUESTBOOK_UPDATED,"0");
-            }
-
-
-            builtUri = Uri.parse(GUESTBOOK_AFTER_DATE_URL + after).buildUpon()
-                    .build();
-
-            url = new URL(builtUri.toString());
-
-            // Create the request to OpenWeatherMap, and open the connection
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            // Read the input stream into a String
-            inputStream = urlConnection.getInputStream();
-            buffer = new StringBuffer();
-
-            if (inputStream == null) {
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            while ((line = reader.readLine()) != null) {
-                //Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                //But it does make debugging a *lot* easier if you print out the completed
-                //buffer for debugging.
-                buffer.append(line + "\n");
-            }
-
-            if (buffer.length() == 0) {
-                // Stream was empty. No point in parsing.
-                return;
-            }
-
-            String guestbookJsonStr = buffer.toString();
-            String newTimeStamp = getGuestbookDataFromJson(guestbookJsonStr);
-            if (newTimeStamp != null){
-
-                int timeStamp = Integer.parseInt(newTimeStamp);
-                if (timeStamp != 0){
-                    newTimeStamp = String.valueOf(timeStamp++);
-                    //Update the shared preference
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString(PREFERENCE_UPDATED, formattedDateString);
-                    editor.putString(PREFERENCE_GUESTBOOK_UPDATED,newTimeStamp);
-                    editor.apply();
+            if (prefs.getBoolean(GuestbookActivity.SYNC_GUESTBOOK_ONLY,true)) {
+                String after = "0";
+                if (prefs.contains(PREFERENCE_GUESTBOOK_UPDATED)) {
+                    after = prefs.getString(PREFERENCE_GUESTBOOK_UPDATED, "0");
                 }
+
+                builtUri = Uri.parse(GUESTBOOK_AFTER_DATE_URL + after).buildUpon()
+                        .build();
+
+                url = new URL(builtUri.toString());
+
+                // Create the request to OpenWeatherMap, and open the connection
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                // Read the input stream into a String
+                inputStream = urlConnection.getInputStream();
+                buffer = new StringBuffer();
+
+                if (inputStream == null) {
+                    return;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                while ((line = reader.readLine()) != null) {
+                    //Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    //But it does make debugging a *lot* easier if you print out the completed
+                    //buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+
+                if (buffer.length() == 0) {
+                    // Stream was empty. No point in parsing.
+                    return;
+                }
+
+                String guestbookJsonStr = buffer.toString();
+                String newTimeStamp = getGuestbookDataFromJson(guestbookJsonStr);
+                SharedPreferences.Editor editor = prefs.edit();
+                if (newTimeStamp != null) {
+
+                    int timeStamp = Integer.parseInt(newTimeStamp);
+                    if (timeStamp != 0) {
+                        newTimeStamp = String.valueOf(timeStamp++);
+                        //Update the shared preference
+
+                        editor.putString(PREFERENCE_UPDATED, formattedDateString);
+                        editor.putString(PREFERENCE_GUESTBOOK_UPDATED, newTimeStamp);
+                        editor.apply();
+                    }
+                }
+
+                editor.putBoolean(GuestbookActivity.SYNC_GUESTBOOK_ONLY,false);
+                editor.apply();
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
@@ -186,6 +198,7 @@ public class SongSyncAdapter extends AbstractThreadedSyncAdapter {
             // to parse it.
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
+
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {

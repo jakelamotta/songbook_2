@@ -21,7 +21,8 @@
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        >
 
         <EditText
             android:layout_width="200dp"
@@ -36,18 +37,29 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:layout_gravity="center">
+            android:paddingTop="1dp"
+            android:layout_gravity="left">
 
-        <EditText
-            android:background="@drawable/border_image"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="2dp"
-            android:selectAllOnFocus="true"
-            android:text="@string/enter_name"
-            android:id="@+id/edit_poster_name" />
+            <EditText
+                android:background="@drawable/border_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:selectAllOnFocus="true"
+                android:layout_marginRight="12dp"
+                android:text="@string/enter_name"
+                android:id="@+id/edit_poster_name" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:background="@drawable/border_image"
+                android:id="@+id/make_private_cb"
+                android:text="@string/make_private"/>
         </LinearLayout>
+
+
 
 
     </LinearLayout>

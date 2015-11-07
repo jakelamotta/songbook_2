@@ -11,7 +11,7 @@ import android.util.Log;
 public class SongDbHelper extends SQLiteOpenHelper {
 
     //Change this value when making db updates
-    private static final int DATABASE_VERSION = 27;
+    private static final int DATABASE_VERSION = 29;
     static final String DATABASE_NAME = "songs.db";
     private static final String LOG_TAG = SongDbHelper.class.getSimpleName();
 
@@ -60,9 +60,7 @@ public class SongDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_EVENT_TABLE);
         db.execSQL(SQL_CREATE_SONG_TABLE);
     }
-
-
-
+    
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SongContract.GuestbookTable.NAME);

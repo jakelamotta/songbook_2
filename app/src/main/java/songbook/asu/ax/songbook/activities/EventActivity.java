@@ -41,7 +41,8 @@ public class EventActivity extends SongbookActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_event).setVisible(false);
+        //menu.findItem(R.id.action_event).setVisible(false);
+        menu.findItem(R.id.search_menu_item).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

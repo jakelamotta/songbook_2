@@ -11,24 +11,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Iterator;
+
+import songbook.asu.ax.songbook.Loaders;
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.activities.DetailActivity;
+import songbook.asu.ax.songbook.activities.SongbookActivity;
 import songbook.asu.ax.songbook.data.SongContract;
 
-/**
- * Created by EIS i7 Gamer on 2015-03-02.
- */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     public static final String DETAIL_URI = "detail_uri";
-    private static final int SONG_LOADER = 0;
 
     private Uri mUri;
 
@@ -50,13 +51,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private PowerManager.WakeLock wakeLock;
 
     public DetailFragment(){
+        super();
         setHasOptionsMenu(true);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "wltag");
+        wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "wltag");
         wakeLock.acquire();
 
         super.onCreate(savedInstanceState);
@@ -83,14 +85,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mName = intent.getStringExtra(MainFragment.SONG_NAME);
         }
 
-
         mNameView = (TextView) rootView.findViewById(R.id.song_name_textview_detail);
         mMelodyView = (TextView) rootView.findViewById(R.id.melody_textview_detail);
         mTextView1 = (TextView) rootView.findViewById(R.id.text_text_view_detail);
 
         return rootView;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -114,6 +114,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        SongbookActivity activity = (SongbookActivity)getActivity();
+
+        Iterator it = activity.getSupportFragmentManager().getFragments().iterator();
+
+        while (it.hasNext()){
+            Fragment f = (Fragment) it.next();
+            try{
+                f.getLoaderManager().getLoader(Loaders.SONG_BY_CAT_LOADER.ordinal()).forceLoad();
+            }
+            catch(Exception e){
+            }
+        }
         if (data != null && data. moveToFirst()){
             mNameView.setText(data.getString(COL_NAME));
             mMelodyView.setText(String.format(getActivity().getString(R.string.melody),data.getString(COL_MELODY)));
@@ -124,12 +136,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader){
+        Log.v(LOG_TAG, "onLoaderReset");
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(SONG_LOADER, null, this);
+        getLoaderManager().initLoader(Loaders.DETAI_LOADER.ordinal(),null,this);
         super.onActivityCreated(savedInstanceState);
     }
 

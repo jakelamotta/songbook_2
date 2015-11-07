@@ -3,6 +3,7 @@ package songbook.asu.ax.songbook;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import songbook.asu.ax.songbook.fragments.MainFragment;
  * Created by EIS i7 Gamer on 2015-02-28.
  */
 public class SongAdapter extends CursorAdapter {
-
     private static final String LOG_TAG = SongAdapter.class.getSimpleName();
 
     public static class ViewHolder{
@@ -48,6 +48,7 @@ public class SongAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        Log.v(LOG_TAG,"in BindView");
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         viewHolder.iconView.setImageResource(R.mipmap.arrow_no_border);
@@ -61,6 +62,7 @@ public class SongAdapter extends CursorAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.v(LOG_TAG, "in GetView");
         return super.getView(position, convertView, parent);
     }
 }

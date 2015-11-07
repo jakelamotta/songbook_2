@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
-    tools:context="songbook.ax.asu.asu_songbook.SongsFragment"
+    tools:context="songbook.ax.asu.asu_songbook.SongsByCatFragment"
     android:orientation="vertical"
     android:background="@drawable/sea_no_ships"
     android:fadingEdge="horizontal"
-    android:tag="main_fragment">
+    android:tag="songs_by_cat_fragment">
 
     <LinearLayout
         android:layout_width="match_parent"

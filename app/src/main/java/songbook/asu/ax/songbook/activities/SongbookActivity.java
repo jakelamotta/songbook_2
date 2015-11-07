@@ -1,12 +1,17 @@
 package songbook.asu.ax.songbook.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.Stack;
 
 import songbook.asu.ax.songbook.R;
 import songbook.asu.ax.songbook.SongFilter;
@@ -17,12 +22,15 @@ import songbook.asu.ax.songbook.data.SongSyncAdapter;
  */
 public class SongbookActivity extends ActionBarActivity {
 
+    protected static Stack<Class<?>> parents = new Stack<Class<?>>();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch(item.getItemId()){
             case R.id.action_guestbook:{
+                updateGuestbook(this);
+
                 Intent intent = new Intent(this,GuestbookActivity.class);
                 startActivity(intent);
                 break;
@@ -31,12 +39,12 @@ public class SongbookActivity extends ActionBarActivity {
                 Intent intent = new Intent(this,CategoryActivity.class);
                 startActivity(intent);
                 break;
-            }
+            }/*
             case R.id.action_event:{
                 Intent intent = new Intent(this,EventActivity.class);
                 startActivity(intent);
                 break;
-            }
+            }*/
             case R.id.action_add_song:{
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.link_to_api)));
                 startActivity(myIntent);
@@ -62,5 +70,21 @@ public class SongbookActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_allsongs).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public static void updateGuestbook(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(GuestbookActivity.SYNC_GUESTBOOK_ONLY,true);
+        editor.apply();
+
+        SongSyncAdapter.syncImmediately(context);
     }
 }

@@ -3,13 +3,16 @@ package songbook.asu.ax.songbook.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import songbook.asu.ax.songbook.R;
+import songbook.asu.ax.songbook.data.SongSyncAdapter;
 import songbook.asu.ax.songbook.fragments.GuestbookFragment;
 
 /**
@@ -18,12 +21,12 @@ import songbook.asu.ax.songbook.fragments.GuestbookFragment;
 public class GuestbookActivity extends SongbookActivity {
 
     private static final String LOG_TAG = GuestbookActivity.class.getSimpleName();
+    public static String SYNC_GUESTBOOK_ONLY = "sync_guestbook";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guestbook);
-
         GuestbookFragment fragment = new GuestbookFragment();
 
         getSupportFragmentManager().beginTransaction()
@@ -43,6 +46,7 @@ public class GuestbookActivity extends SongbookActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_guestbook).setVisible(false);
+        menu.findItem(R.id.search_menu_item).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -50,5 +54,4 @@ public class GuestbookActivity extends SongbookActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
 }

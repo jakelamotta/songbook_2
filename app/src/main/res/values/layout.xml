@@ -4,4 +4,5 @@
     <item name="fragment_detail_ref" type="layout">@layout/fragment_detail_medium_2p</item>
     <item name="fragment_main_ref" type="layout">@layout/fragment_main</item>
     <item name="fragment_guestbook_ref" type="layout">@layout/fragment_guestbook_medium</item>
+    <item name="fragment_songs_by_cat_ref" type="layout">@layout/fragment_songs_by_cat_medium</item>
 </resources>
